@@ -1,0 +1,98 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          if (Test-Path requirements.txt) { pip install -r requirements.txt }
+          pip install pyinstaller
+
+      - name: Derive version from tag
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Guard tag matches build_info version
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        run: |
+          $tagName = "${{ github.ref_name }}"
+          if ($tagName -notmatch '^v\d+\.\d+\.\d+$') {
+            Write-Error "Ungültiges Tag-Format '$tagName'. Erwartet: vMAJOR.MINOR.PATCH"
+            exit 1
+          }
+
+          $tagVersion = "${{ github.ref_name }}".TrimStart('v')
+
+          # Version aus build_info.py lesen
+          $content = Get-Content 'src/build_info.py' -Raw
+          if ($content -match "'version':\s*'([0-9]+\.[0-9]+\.[0-9]+)'") {
+            $fileVersion = $Matches[1]
+          } else {
+            Write-Error "Konnte Version nicht aus src/build_info.py lesen."
+            exit 1
+          }
+
+          if ($tagVersion -ne $fileVersion) {
+            Write-Error "Versionskonflikt: Tag '$tagVersion' != build_info.py '$fileVersion'."
+            exit 1
+          }
+
+          Write-Host "Versions-Guard bestanden: $tagVersion"
+
+      - name: Derive version for manual run
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        shell: pwsh
+        run: |
+          $content = Get-Content 'src/build_info.py' -Raw
+          if ($content -match "'version':\s*'([0-9]+\.[0-9]+\.[0-9]+)'") {
+            $version = $Matches[1]
+          } else {
+            Write-Error "Konnte Version nicht aus src/build_info.py lesen."
+            exit 1
+          }
+          "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Build executable (NoVersionBump)
+        shell: pwsh
+        run: .\build.ps1 -NoVersionBump -Quiet
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-assets-v${{ env.VERSION }}
+          path: |
+            release/TN-Doku-Ersteller-Portable_${{ env.VERSION }}.zip
+
+      - name: Publish GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            release/TN-Doku-Ersteller-Portable_${{ env.VERSION }}.zip

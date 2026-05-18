@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.venv/
+venv/
+*.egg-info/
+
+# Build / Distribution
+build/
+dist/
+release/
+
+# IDE
+.vscode/
+.idea/
+
+# Betriebssystem
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Laufzeit-Daten
+_Listen/**/*.xlsm
+_Listen/**/*.xlsx
+Jahrgang */
+
+# Teilnehmerdaten (personenbezogen, nicht versionieren)
+Teilnehmer_Beginn.CSV

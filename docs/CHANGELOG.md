@@ -1,0 +1,304 @@
+<!-- markdownlint-disable MD012 -->
+
+# Changelog – TN-Doku-Ersteller-Portable
+
+Alle bemerkenswerten Änderungen dieses Projekts werden in dieser Datei dokumentiert.
+
+Format basiert auf [Keep a Changelog](https://keepachangelog.com/) und folgt [Semantic Versioning](https://semver.org/).
+
+---
+
+## [Unreleased]
+
+---
+
+## [3.0.1] – 2026-05-18
+
+### Added (3.0.1)
+
+- GUI erweitert um Schnellzugriffe auf `ANWENDERDOKUMENTATION.md` und `TECHNISCHE_DOKUMENTATION.md`.
+
+### Changed (3.0.1)
+
+- CSV-Vorschaufenster in der GUI auf kompaktere Höhe reduziert.
+- Dokumentationsdateien auf konsistente Namen umgestellt (`ANWENDERDOKUMENTATION.md`, `TECHNISCHE_DOKUMENTATION.md`).
+- Build-/Release-Prozess gehärtet: `docs/` wird verpflichtend in das Distributionsverzeichnis kopiert, auf Pflichtdateien validiert und in ZIP-Releases mit aufgenommen.
+
+### Fixed (3.0.1)
+
+- Wiederkehrende Markdown-Lint-Fehler (u. a. MD060) durch zentrale Projektregelung entschärft.
+
+---
+
+## [3.0.0] – 2026-05-18
+
+### Changed (3.0.0)
+
+- Build-System auf **PyInstaller Onefile** umgestellt: Verteilung erfolgt jetzt mit einer einzelnen `TN-Doku-Ersteller-Portable.exe` im Paketordner.
+- `TN-Doku-Ersteller-Portable.spec` auf Onefile-Layout angepasst (kein `COLLECT`-/`_internal`-Ordner mehr im Release-Verzeichnis).
+- `build.ps1` für Onefile-Ausgabe überarbeitet (Onefile-EXE wird erzeugt und anschließend in den versionierten Distributionsordner übernommen).
+
+### Docs (3.0.0)
+
+- Installations-, Anwender- und technische Dokumentation auf Version `3.0.0` aktualisiert.
+
+---
+
+## [2.0.4] – 2026-05-18
+
+### Fixed (2.0.4)
+
+- Build-Skript validiert jetzt vor dem Packen explizit das Vorhandensein von `_internal/_tk_data`, damit keine fehlerhaften Tkinter-Pakete veröffentlicht werden.
+- Das Setzen des Hidden-Attributs für `_internal` wurde entfernt, um Probleme bei Entpack-/Kopiervorgängen zu vermeiden.
+
+---
+
+## [2.0.3] – 2026-05-18
+
+### Changed (2.0.3)
+
+- Dokumentation sprachlich vereinheitlicht: `INN-tegrativ gGmbH` durch `Bildungseinrichtung` ersetzt.
+- Lizenzdatei auf `LICENSE` (MIT) umgestellt und alle Referenzen von `LIZENZ.txt` aktualisiert.
+- Build-Prozess und Projektdokumentation auf konsistente Lizenzreferenzen angepasst.
+
+---
+
+## [2.0.2] – 2026-04-26
+
+### Fixed (2.0.2)
+
+- App-Icon in GUI-Titelleiste: Pfadauflösung für `sys._MEIPASS` im eingefrorenen Modus korrigiert; Icon wird nun zuverlässig aus dem temporären PyInstaller-Verzeichnis geladen.
+
+---
+
+## [2.0.1] – 2026-04-26
+
+### Added (2.0.1)
+
+- App-Icon (`app_icon.ico`) in EXE-Icon und GUI-Titelleiste integriert.
+- `TN-Doku-Ersteller-Portable.spec` um Icon-Pfad erweitert.
+
+---
+
+## [2.0.0] – 2026-04-26
+
+### Added (2.0.0)
+
+- Vollständige Dokumentation: Anwenderanleitung, Installationsanleitung, FAQ (30+ Einträge), Technische Referenz, Changelog.
+- `_internal`-Verzeichnis nach Build als Hidden markiert (saubereres Erscheinungsbild im Dateiexplorer).
+
+---
+
+## [1.0.1] – 2026-04-26
+
+### Fixed
+
+- **Anwesenheitsliste – Datum-Tab korrigiert:** Der Tab-Stop für das Feld „Datum:" wird jetzt dynamisch aus der tatsächlichen Inhaltsbreite berechnet, statt einen festen Wert zu nutzen. Dies verhindert, dass das Datum-Feld außerhalb des Seitenrands liegt.
+- **Anwesenheitsliste – leere Vorlage-Zeile entfernt:** Die leere Zeile aus der Word-Vorlage wird vor der Befüllung gelöscht. Nur echte Teilnehmer-Zeilen werden eingefügt.
+- **Anwesenheitsliste – 1-Seiten-Fit:** Zeilenhöhen werden automatisch berechnet, sodass die Anwesenheitsliste genau auf eine Seite passt. Wird am Ende Platz frei, vergrößert sich die Zeilenhöhe gleichmäßig.
+
+### Technical Details
+
+- **Tab-Stop-Berechnung:** `content_w_twips = int((page_width - left_margin - right_margin) * 20)`
+- **Zeilenhöhen-Berechnung:** `row_h_pt = available_pt / num_participants` (Minimum: 14pt)
+- **Vorlage-Zeilen-Entfernung:** `while len(table.rows) > 1: table._tbl.remove(table.rows[1]._tr)`
+
+### Build Info
+
+- **Version:** 1.0.1
+- **Build-Datum:** 26.04.2026
+- **EXE-Größe:** ~7.2 MB
+- **ZIP-Größe:** ~35 MB
+
+---
+
+## [1.0.0] – 2026-04-26
+
+### Added (Initial Release)
+
+#### Kernfunktionalität
+
+- **Ordnerstruktur anlegen:** Erstellt einen Jahrgangsordner mit je einem Unterordner pro Teilnehmer (Format: `Name - Maßnahmekürzel`)
+- **Ablagestruktur kopieren:** Überträgt vordefinierte Ordner-Strukturen aus `_Listen` in jeden Teilnehmer-Ordner
+- **Excel-Dateien vorbereiten:**
+  - Benennt Musterdateien (XLSM) pro Teilnehmer um
+  - Repariert Tabellenblätter (Sheet „Muster" → Teilnehmername)
+  - Bewahrt VBA-Makros mit `openpyxl.load_workbook(..., keep_vba=True)`
+- **Anwesenheitsliste erzeugen:** Erstellt Word-Datei (DOCX) mit Kopfzeile und befüllter Tabelle
+- **Keine Office-Abhängigkeit:** Läuft ohne installiertes Microsoft Office (nutzt `openpyxl` + `python-docx`)
+
+#### GUI (Tkinter)
+
+- Eingabefelder für CSV-Datei, Ausgabe-Ordner, _Listen-Ordner
+- Automatische Erkennung von `Teilnehmer_Beginn.CSV` und `_Listen` im App-Verzeichnis
+- CSV-Vorschau in Treeview-Tabelle (Name, Maßnahme, Kürzel)
+- Log-Ausgabe mit Fortschrittsanzeige (5 Schritte)
+- Fehlerbehandlung mit aussagekräftigen Meldungen
+- Threading für responsive GUI (Verarbeitung läuft im Hintergrund)
+
+#### CSV-Import
+
+- Automatische Encoding-Erkennung (Windows-1252, UTF-8-sig, UTF-8, Latin-1)
+- Semikolon als Standard-Trennzeichen
+- Validierung von Pflicht-Spalten (`Name`, `Maßnahme`, `Maßnahmekürzel`)
+
+#### Build & Deployment
+
+- **PyInstaller-Integration:** Erstellt Onedir-EXE mit allen Abhängigkeiten
+- **build.ps1 Automatisierung:** Version-Bump, EXE-Erstellung, ZIP-Paketierung
+- **Artifact-Handling:** `_Listen`, `Teilnehmer_Beginn.CSV`, `README.md`, `LICENSE` werden in Dist kopiert
+- **Portable Ausführung:** Keine Installation erforderlich, kann auf USB-Stick kopiert werden
+
+#### Projektstruktur
+
+```text
+src/
+├── main.py             # GUI (Tkinter)
+├── core.py             # 5-Schritte-Pipeline
+├── csv_reader.py       # CSV-Import
+└── build_info.py       # Versionierung
+
+Unterstützungsdateien:
+├── build.ps1           # Build-Automatisierung
+├── TN-Doku-Ersteller-Portable.spec  # PyInstaller-Config
+├── setup.ps1           # Venv & Dependencies Setup
+├── requirements.txt    # Python-Pakete
+├── README.md           # Schnelleinstieg
+├── LICENSE             # Lizenzinformation
+└── _Listen/            # Vorlagen (in EXE enthalten)
+```
+
+#### Plattform
+
+- Windows 10/11 (64-bit)
+- Python 3.x (verpackt in EXE, keine Installation nötig)
+
+#### Dokumentation
+
+- Umfangreiche README.md mit Quickstart
+- CSV-Format-Tabelle
+- Projektstruktur-Übersicht
+- Build-Anleitung für Entwickler
+
+### Technical Specs
+
+- **EXE-Größe:** ~7.2 MB (Onedir mit allen Libs)
+- **Speicher:** ~50–100 MB während Verarbeitung
+- **Performance:** ~5–10 Sekunden für 26 Teilnehmer
+- **Python-Pakete:** openpyxl (3.1.0+), python-docx (1.1.0+), pyinstaller (6.17.0+)
+
+### Known Limitations (v1.0.0)
+
+- Nur Windows (Tkinter hat Plattform-Limits)
+- XLSM-Makros werden bewahrt, aber nicht modifiziert
+- DOCM (Word-Makros) nicht unterstützt (nur DOCX)
+- CSV-Encoding auf UTF-8 / Windows-1252 beschränkt
+
+### Git History
+
+- Initial commit: `bb086ff` (Projektstruktur + Source)
+- First build: `994e045` (EXE v1.0.1 – vor Bugfix)
+- Bugfix release: `9f10069` (Anwesenheitsliste-Korrekturen)
+
+---
+
+## [Upcoming – v1.1.0]
+
+### Planned Features (nicht in aktueller Version)
+
+- CSV-Vorschau mit Zeilen- / Spaltensortierung
+- Option: Jahrgang in Ausgabordner-Namen einfügen
+- CLI-Variante (ohne GUI) für Batch-Verarbeitung
+- Mehrsprachige UI (EN, DE)
+- Template-Validierung (Prüfung auf erforderliche Dateien vor Verarbeitung)
+- Detaillierte Error-Logs (optional speichern)
+
+### Experimental (unter Evaluation)
+
+- macOS/Linux-Port (würde Tkinter auf Qt/PyQt wechseln)
+- Support für weitere Office-Formate (ODS, PPTX)
+- Drag-and-Drop für Dateien/Ordner in der GUI
+
+---
+
+## Versionierungsschema
+
+**TN-Doku-Ersteller-Portable** folgt [Semantic Versioning](https://semver.org/):
+
+- **MAJOR (X.0.0):** Breaking Changes, komplette Neuentwicklung
+- **MINOR (0.Y.0):** Neue Features (rückwärts-kompatibel)
+- **PATCH (0.0.Z):** Bugfixes, kleinere Verbesserungen
+
+Beispiele:
+
+- `1.0.0` – Initial Release
+- `1.0.1` – Bugfixes für v1.0.0
+- `1.1.0` – Neue Features
+- `2.0.0` – Breaking Changes (z. B. neue API, neue Struktur)
+
+---
+
+## Wie man Änderungen einreicht
+
+1. Fork des Repositories auf GitHub
+2. Feature-Branch erstellen: `git checkout -b feature/neue-funktion`
+3. Commits mit aussagekräftigen Nachrichten:
+
+   ```text
+   fix: Fehler bei CSV-Import behoben
+   feat: Neue Option hinzugefügt
+   docs: Dokumentation erweitert
+   ```
+
+4. Push zum Fork: `git push origin feature/neue-funktion`
+5. Pull Request öffnen
+
+---
+
+## Release-Prozess
+
+1. **Version aktualisieren** in `src/build_info.py`
+2. **Changelog aktualisieren** (diese Datei)
+3. **Build erstellen:**
+
+   ```powershell
+   .\build.ps1  # Auto-Version-Bump, EXE + ZIP
+   ```
+
+4. **Git-Commit:**
+
+   ```powershell
+   git add -A
+   git commit -m "build: Release v1.0.1 – Anwesenheitsliste-Fixes"
+   ```
+
+5. **Git-Tag:**
+
+   ```powershell
+   git tag -a v1.0.1 -m "Release v1.0.1"
+   git push origin main
+   git push origin v1.0.1
+   ```
+
+6. **GitHub Release erstellen** (auf github.com):
+   - Tag `v1.0.1` auswählen
+   - ZIP aus `release/` hochladen
+   - Release Notes kopieren
+
+---
+
+## Support & Lizenz
+
+- **Lizenz:** Siehe [LICENSE](../LICENSE)
+- **Repository:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable)
+- **Issues:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
+- **Dokumentation:** Siehe `docs/`-Ordner
+
+---
+
+## Danksagungen
+
+Entwicklung für Bildungseinrichtung.
+
+Dank an alle Tester und Nutzer für Feedback und Verbesserungsvorschläge!
+
