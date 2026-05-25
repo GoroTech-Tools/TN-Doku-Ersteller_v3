@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD009 MD012 MD022 MD031 MD032 MD040 -->
+
 # FAQ – Häufig gestellte Fragen
 
 ## Allgemeines
@@ -9,7 +11,7 @@
 **A:** Nein, momentan nur auf Windows (10/11, 64-bit). Ein Cross-Platform-Port ist geplant, aber nicht prioritär.
 
 ### F: Ist die Anwendung kostenlos?
-**A:** Ja, TN-Doku-Ersteller-Portable ist Open Source und kostenlos. Siehe [LICENSE](../LICENSE).
+**A:** Ja, TN-Doku-Ersteller-Portable ist Open Source und kostenlos. Siehe [LICENSE](./LICENSE).
 
 ### F: Kann ich die Anwendung weitergeben?
 **A:** Ja! Die ZIP-Datei kannst du ohne Probleme an andere Nutzer weitergeben. Sie funktioniert überall.
@@ -37,8 +39,8 @@
 ### F: Darf ich die Anwendung umbenennen?
 **A:** Ja, der Ordnername ist egal. Nur die EXE-Datei sollte `TN-Doku-Ersteller-Portable.exe` heißen.
 
-### F: Kann ich die Anwendung in ein bestehendes Verzeichnis mit `_Listen` entpacken?
-**A:** Ja! Falls `_Listen` und `Teilnehmer_Beginn.CSV` bereits vorhanden sind, werden sie automatisch erkannt.
+### F: Kann ich die Anwendung in ein bestehendes Verzeichnis mit `data/Ablagesystem` entpacken?
+**A:** Ja! Falls `data/Ablagesystem` und `data/Teilnehmer_Beginn.CSV` bereits vorhanden sind, werden sie automatisch erkannt.
 
 ---
 
@@ -70,7 +72,7 @@ Nicht empfohlen: ANSI (kann zu Problemen mit Umlauten führen)
 1. Daten in Excel eintragen
 2. **Datei → Speichern unter**
 3. **Format wählen:** „CSV (Trennzeichen-getrennt) (.csv)"
-4. **Dateiname:** `Teilnehmer_Beginn.CSV`
+4. **Dateiname:** `Teilnehmer_Beginn.CSV` (anschließend in `data/` ablegen)
 5. Wenn Excel fragt „Möchten Sie die Datei im CSV-Format speichern?" → **Ja**
 6. **Trennzeichen-Dialog:** Semikolon (`;`) auswählen
 
@@ -139,7 +141,7 @@ _Ausgabe/
 - Ein neuer `Jahrgang XXXX`-Ordner wird erstellt (derselbe Name)
 - Der alte Ordner wird **nicht überschrieben** – stattdessen bekommen neue Ordner einen Zähler: `Jahrgang 2601 (1)`, `Jahrgang 2601 (2)`, etc.
 
-### F: Kann ich Ausgabe-Ordner und _Listen-Ordner auf unterschiedliche Laufwerke legen?
+### F: Kann ich Ausgabe-Ordner und Ablagesystem-Ordner auf unterschiedliche Laufwerke legen?
 **A:** Ja! Du kannst beliebige Pfade via Button auswählen. Sie müssen nicht im gleichen Verzeichnis sein.
 
 ---
@@ -148,13 +150,13 @@ _Ausgabe/
 
 ### F: Fehler „CSV-Datei nicht gefunden"
 **A:** 
-1. **Prüfen:** Existiert die Datei `Teilnehmer_Beginn.CSV`?
+1. **Prüfen:** Existiert die Datei `data/Teilnehmer_Beginn.CSV`?
 2. **Prüfen:** Ist der Dateiiname exakt korrekt (Groß-/Kleinschreibung, Umlaute)?
 3. **Lösungsweg:** Datei manuell via Button auswählen
 
-### F: Fehler „_Listen-Ordner nicht gefunden"
+### F: Fehler „Ablagesystem-Ordner nicht gefunden"
 **A:**
-1. **Prüfen:** Existiert der Ordner `_Listen`?
+1. **Prüfen:** Existiert der Ordner `data/Ablagesystem`?
 2. **Prüfen:** Enthält er die erforderlichen Dateien (`Anwesenheitsliste.docx`, Excel-Musterdatei)?
 3. **Lösungsweg:** Ordner erstellen und befüllen oder manuell auswählen
 
@@ -172,7 +174,7 @@ _Ausgabe/
 ### F: Fehler beim Lesen von Excel/Word
 **A:** Die Vorlage ist wahrscheinlich beschädigt.
 1. **Neue Vorlage-Datei besorgen** (von Kollege oder neu erstellen)
-2. **In den `_Listen`-Ordner legen**
+2. **In den Ordner `data/Ablagesystem` legen**
 3. **Nochmal versuchen**
 
 ---
@@ -183,7 +185,7 @@ _Ausgabe/
 **A:** 
 1. Neue ZIP-Datei von GitHub herunterladen (neuere Versionsnummer)
 2. In einen neuen Ordner entpacken
-3. `_Listen` und `Teilnehmer_Beginn.CSV` aus der alten Version **übernehmen** oder **neu bereitstellen**
+3. `data/Ablagesystem` und `data/Teilnehmer_Beginn.CSV` aus der alten Version **übernehmen** oder **neu bereitstellen**
 4. Die neue EXE starten
 
 Alte und neue Version können nebeneinander existieren.
@@ -193,7 +195,7 @@ Alte und neue Version können nebeneinander existieren.
 
 ### F: Wo melde ich Fehler oder Bugs?
 **A:** 
-- GitHub Issues: https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues
+- GitHub Issues: [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
 - Direkt per E-Mail an die Entwicklung
 
 ### F: Kann ich Feature-Requests machen?
@@ -210,7 +212,7 @@ Alte und neue Version können nebeneinander existieren.
 **A:** Nein. Nur das Log-Fenster zeigt den Fortschritt. Nach Schließen der Anwendung ist alles weg.
 
 ### F: Ist die Quelle offen?
-**A:** Ja! Der Code ist auf GitHub öffentlich verfügbar: https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable
+**A:** Ja! Der Code ist auf GitHub öffentlich verfügbar: [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable)
 
 ---
 
@@ -239,10 +241,10 @@ Bauer, Tim;IBA 2601;IBA           ← Gleicher Suffix: 2601
 ## Technische Fragen (für Entwickler)
 
 ### F: Welche Python-Version wird verwendet?
-**A:** Python 3.x (standardmäßig 3.11+). Siehe `requirements.txt`.
+**A:** Python 3.x (standardmäßig 3.11+). Siehe `src/requirements.txt`.
 
 ### F: Kann ich eigene Funktionen hinzufügen?
-**A:** Ja! Der Code ist modular aufgebaut. Neue Module können in `src/` hinzugefügt werden. Danach ein neuer Build via `.\build.ps1`.
+**A:** Ja! Der Code ist modular aufgebaut. Neue Module können in `src/` hinzugefügt werden. Danach ein neuer Build via `.\src\build.ps1`.
 
 ### F: Kann ich eine CLI-Version (ohne GUI) haben?
 **A:** Ja! Der Code in `core.py` ist GUI-unabhängig und kann einfach direkt aufgerufen werden. Eine CLI-Variante ist machbar.
@@ -260,8 +262,10 @@ Bauer, Tim;IBA 2601;IBA           ← Gleicher Suffix: 2601
 ## Kontakt & Support
 
 **Fragen nicht beantwortet?**
-- Siehe [ANWENDERANLEITUNG.md](ANWENDERANLEITUNG.md)
-- Oder [TECHNISCHE_REFERENZ.md](TECHNISCHE_REFERENZ.md) (für Entwickler)
-- GitHub Issues: https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues
+- Siehe [DOKUMENTATION_ANWENDER.md](DOKUMENTATION_ANWENDER.md)
+- Oder [DOKUMENTATION_TECHNIK.md](DOKUMENTATION_TECHNIK.md) (für Entwickler)
+- GitHub Issues: [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
 - Entwicklung kontaktieren
+
+
 

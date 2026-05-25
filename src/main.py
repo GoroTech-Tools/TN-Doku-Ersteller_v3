@@ -16,8 +16,8 @@ from csv_reader import read_participants
 APP_TITLE = f"TN-Doku-Ersteller-Portable v{BUILD_INFO['version']}"
 WINDOW_W = 780
 WINDOW_H = 620
-USER_DOC_FILE = "ANWENDERDOKUMENTATION.md"
-TECH_DOC_FILE = "TECHNISCHE_DOKUMENTATION.md"
+USER_DOC_FILE = "DOKUMENTATION_ANWENDER.md"
+TECH_DOC_FILE = "DOKUMENTATION_TECHNIK.md"
 
 
 # ---------------------------------------------------------------------------
@@ -69,8 +69,8 @@ class App(tk.Tk):
             row=1, column=2, padx=(4, 0), pady=3
         )
 
-        # _Listen-Ordner
-        ttk.Label(frm_top, text="_Listen-Ordner:").grid(
+        # Ablagesystem-Ordner
+        ttk.Label(frm_top, text="Ablagesystem-Ordner:").grid(
             row=2, column=0, sticky="w", padx=(0, 6), pady=3
         )
         self._lists_var = tk.StringVar()
@@ -158,14 +158,18 @@ class App(tk.Tk):
 
     def _load_defaults(self):
         app_dir = get_app_dir()
-        # CSV: Teilnehmer_Beginn.CSV im App-Verzeichnis
-        default_csv = os.path.join(app_dir, "Teilnehmer_Beginn.CSV")
+        # CSV: bevorzugt in data/, Legacy-Fallback im App-Verzeichnis
+        default_csv = os.path.join(app_dir, "data", "Teilnehmer_Beginn.CSV")
+        if not os.path.isfile(default_csv):
+            default_csv = os.path.join(app_dir, "Teilnehmer_Beginn.CSV")
         if os.path.isfile(default_csv):
             self._csv_var.set(default_csv)
         # Ausgabe: App-Verzeichnis selbst
         self._out_var.set(app_dir)
-        # _Listen
-        default_lists = os.path.join(app_dir, "_Listen")
+        # Ablagesystem: bevorzugt in data/, Legacy-Fallback im App-Verzeichnis
+        default_lists = os.path.join(app_dir, "data", "Ablagesystem")
+        if not os.path.isdir(default_lists):
+            default_lists = os.path.join(app_dir, "_Listen")
         self._lists_var.set(default_lists)
         # Ggf. direkt laden
         if os.path.isfile(default_csv):
@@ -190,7 +194,7 @@ class App(tk.Tk):
             self._out_var.set(path)
 
     def _browse_lists(self):
-        path = filedialog.askdirectory(title="_Listen-Ordner auswählen")
+        path = filedialog.askdirectory(title="Ablagesystem-Ordner auswählen")
         if path:
             self._lists_var.set(path)
 
@@ -249,8 +253,8 @@ class App(tk.Tk):
         lists_dir = self._lists_var.get().strip()
         if not lists_dir or not os.path.isdir(lists_dir):
             messagebox.showerror(
-                "Fehlender _Listen-Ordner",
-                f"Der _Listen-Ordner wurde nicht gefunden:\n{lists_dir}\n\n"
+                "Fehlender Ablagesystem-Ordner",
+                f"Der Ablagesystem-Ordner wurde nicht gefunden:\n{lists_dir}\n\n"
                 "Bitte den Pfad manuell konfigurieren."
             )
             return

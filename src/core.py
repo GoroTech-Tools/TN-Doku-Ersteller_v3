@@ -96,14 +96,14 @@ def copy_template_structure(
     unterhalb von jahrgang_path.
     """
     if not os.path.isdir(lists_dir):
-        raise FileNotFoundError(f"_Listen-Ordner nicht gefunden: {lists_dir}")
+        raise FileNotFoundError(f"Ablagesystem-Ordner nicht gefunden: {lists_dir}")
 
     template_dirs = [
         d for d in os.scandir(lists_dir)
         if d.is_dir()
     ]
     if not template_dirs:
-        _log("  Hinweis: Keine Unterordner in _Listen gefunden.", log)
+        _log("  Hinweis: Keine Unterordner im Ablagesystem gefunden.", log)
         return
 
     participant_folders = [

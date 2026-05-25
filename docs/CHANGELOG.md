@@ -10,18 +10,23 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/) und folgt [Se
 
 ## [Unreleased]
 
+### Changed
+
+- Build-/Setup-Einstieg auf `src/` vereinheitlicht (`src/build.ps1`, `src/setup.ps1`, `src/requirements.txt`).
+- Root-`setup.ps1` dient als Kompatibilitäts-Entrypoint und delegiert an `src/setup.ps1`.
+
 ---
 
 ## [3.0.1] – 2026-05-18
 
 ### Added (3.0.1)
 
-- GUI erweitert um Schnellzugriffe auf `ANWENDERDOKUMENTATION.md` und `TECHNISCHE_DOKUMENTATION.md`.
+- GUI erweitert um Schnellzugriffe auf `DOKUMENTATION_ANWENDER.md` und `DOKUMENTATION_TECHNIK.md`.
 
 ### Changed (3.0.1)
 
 - CSV-Vorschaufenster in der GUI auf kompaktere Höhe reduziert.
-- Dokumentationsdateien auf konsistente Namen umgestellt (`ANWENDERDOKUMENTATION.md`, `TECHNISCHE_DOKUMENTATION.md`).
+- Dokumentationsdateien auf konsistente Namen umgestellt (`DOKUMENTATION_ANWENDER.md`, `DOKUMENTATION_TECHNIK.md`).
 - Build-/Release-Prozess gehärtet: `docs/` wird verpflichtend in das Distributionsverzeichnis kopiert, auf Pflichtdateien validiert und in ZIP-Releases mit aufgenommen.
 
 ### Fixed (3.0.1)
@@ -262,7 +267,7 @@ Beispiele:
 3. **Build erstellen:**
 
    ```powershell
-   .\build.ps1  # Auto-Version-Bump, EXE + ZIP
+   .\src\build.ps1  # Auto-Version-Bump, EXE + ZIP
    ```
 
 4. **Git-Commit:**
@@ -289,7 +294,7 @@ Beispiele:
 
 ## Support & Lizenz
 
-- **Lizenz:** Siehe [LICENSE](../LICENSE)
+- **Lizenz:** Siehe [LICENSE](./LICENSE)
 - **Repository:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable)
 - **Issues:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
 - **Dokumentation:** Siehe `docs/`-Ordner

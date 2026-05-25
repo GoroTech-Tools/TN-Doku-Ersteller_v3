@@ -14,7 +14,7 @@ für neue Ausbildungsgruppen der Bildungseinrichtung.
 - **Ordnerstruktur anlegen** – erzeugt je Teilnehmer einen eigenen Ordner
   (`Name - Maßnahmekürzel`) unterhalb eines Jahrgangsordners.
 - **Ablagestruktur kopieren** – überträgt vordefinierte Unterordner und Vorlagen
-  aus dem `_Listen`-Ordner in jeden Teilnehmerordner.
+  aus `data/Ablagesystem` in jeden Teilnehmerordner.
 - **Excel-Dateien vorbereiten** – benennt die Musterdatei um und passt das
   Tabellenblatt (Sheet „Muster" → Teilnehmername) an; **kein installiertes Office erforderlich**.
 - **Anwesenheitsliste erzeugen** – erstellt eine befüllte Word-Datei auf Basis
@@ -29,18 +29,18 @@ für neue Ausbildungsgruppen der Bildungseinrichtung.
 ## Quickstart
 
 1. ZIP-Archiv entpacken.
-2. `_Listen`-Ordner mit den aktuellen Vorlagen befüllen (sofern nicht bereits enthalten).
-3. `Teilnehmer_Beginn.CSV` mit den Teilnehmerdaten der neuen Gruppe befüllen.
+2. Ordner `data/Ablagesystem` mit den aktuellen Vorlagen befüllen (sofern nicht bereits enthalten).
+3. `data/Teilnehmer_Beginn.CSV` mit den Teilnehmerdaten der neuen Gruppe befüllen.
 4. `TN-Doku-Ersteller-Portable.exe` starten.
 5. CSV-Datei und Ausgabe-Ordner prüfen (werden automatisch vorausgefüllt).
 6. Auf **„Dokumentation erstellen"** klicken.
 7. Den neu erstellten `Jahrgang XXXX`-Ordner ins entsprechende Ablagesystem verschieben.
 
-**Erste Schritte:** Siehe [docs/INSTALLATION.md](docs/INSTALLATION.md) oder [docs/ANWENDERDOKUMENTATION.md](docs/ANWENDERDOKUMENTATION.md)
+**Erste Schritte:** Siehe [docs/INSTALLATION.md](docs/INSTALLATION.md) oder [docs/DOKUMENTATION_ANWENDER.md](docs/DOKUMENTATION_ANWENDER.md)
 
 ## CSV-Format
 
-Die Datei `Teilnehmer_Beginn.CSV` muss semikolongetrennt sein und mindestens diese drei Spalten enthalten:
+Die Datei `data/Teilnehmer_Beginn.CSV` muss semikolongetrennt sein und mindestens diese drei Spalten enthalten:
 
 | Spalte           | Beschreibung                | Beispiel        |
 | ---------------- | --------------------------- | --------------- |
@@ -55,11 +55,10 @@ Die letzten vier Zeichen von `Maßnahme` werden als Jahrgangs-Suffix verwendet
 
 Umfangreiche Dokumentation im Ordner `docs/`:
 
-- [docs/README.md](docs/README.md): Dokumentations-Index & Übersicht
-- [docs/ANWENDERDOKUMENTATION.md](docs/ANWENDERDOKUMENTATION.md): Schritt-für-Schritt Bedienung
+- [docs/DOKUMENTATION_ANWENDER.md](docs/DOKUMENTATION_ANWENDER.md): Schritt-für-Schritt Bedienung
 - [docs/INSTALLATION.md](docs/INSTALLATION.md): Installation und Vorbereitung
 - [docs/FAQ.md](docs/FAQ.md): Häufig gestellte Fragen und Troubleshooting
-- [docs/TECHNISCHE_DOKUMENTATION.md](docs/TECHNISCHE_DOKUMENTATION.md): Architektur und Build-System
+- [docs/DOKUMENTATION_TECHNIK.md](docs/DOKUMENTATION_TECHNIK.md): Architektur und Build-System
 - [docs/CHANGELOG.md](docs/CHANGELOG.md): Versionsgeschichte und Release-Notes
 
 ## Projektstruktur (Quellcode)
@@ -73,35 +72,40 @@ TN-Doku-Ersteller-Portable/
 │   └── build_info.py
 ├── docs/
 │   ├── README.md
-│   ├── ANWENDERDOKUMENTATION.md
+│   ├── DOKUMENTATION_ANWENDER.md
 │   ├── INSTALLATION.md
 │   ├── FAQ.md
-│   ├── TECHNISCHE_DOKUMENTATION.md
+│   ├── DOKUMENTATION_TECHNIK.md
 │   └── CHANGELOG.md
-├── _Listen/
+├── data/
+│   ├── Ablagesystem/
+│   └── Teilnehmer_Beginn.CSV
 ├── build.ps1
-├── TN-Doku-Ersteller-Portable.spec
-├── requirements.txt
-└── setup.ps1
+├── setup.ps1
+└── src/
+  ├── TN-Doku-Ersteller-Portable.spec
+  ├── build.ps1
+  ├── setup.ps1
+  └── requirements.txt
 ```
 
 ## Entwicklung & Build
 
 ```powershell
 # Einmalig: Virtuelle Umgebung anlegen und Pakete installieren
-.\setup.ps1
+.\src\setup.ps1
 
 # Anwendung direkt starten (Entwicklungsmodus)
 .\.venv\Scripts\python.exe src/main.py
 
 # EXE und ZIP erstellen
-.\build.ps1
+.\src\build.ps1
 
 # Ohne Versionserhöhung (z. B. nur für Tests)
-.\build.ps1 -NoVersionBump
+.\src\build.ps1 -NoVersionBump
 
 # Nur EXE, kein ZIP
-.\build.ps1 -SkipZip
+.\src\build.ps1 -SkipZip
 ```
 
 ## Changelog
@@ -112,8 +116,8 @@ Siehe [docs/CHANGELOG.md](docs/CHANGELOG.md) für die vollständige Versionsgesc
 
 - **GitHub Repository:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable)
 - **Issues & Feedback:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
-- **Lizenz:** [LICENSE](LICENSE)
-- **Dokumentation:** [docs/README.md](docs/README.md)
+- **Lizenz:** [LICENSE](docs/LICENSE)
+- **Dokumentation:** [docs/](docs/)
 
 
 

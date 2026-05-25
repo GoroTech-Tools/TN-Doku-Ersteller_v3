@@ -36,11 +36,11 @@ Die GUI öffnet sich – ein Fenster mit Eingabefeldern und einem Log-Bereich.
 
 ### 1. Vorlagen aktualisieren
 
-Falls noch nicht geschehen: Den Ordner `_Listen` mit den aktuellen Vorlagen befüllen.
+Falls noch nicht geschehen: Den Ordner `data/Ablagesystem` mit den aktuellen Vorlagen befüllen.
 
 **Ordnerstruktur:**
-```
-_Listen/
+```text
+data/Ablagesystem/
 ├── Anwesenheitsliste.docx      (Word-Vorlage für Anwesenheitsliste)
 ├── LEK-Ergebnisse/             (Ordner mit Excel-Musterdatei)
 │   └── LEK- und ICDL-Ergebnisse Muster - KBM.xlsm
@@ -51,7 +51,7 @@ _Listen/
 
 ### 2. Teilnehmerliste vorbereiten
 
-Die Datei `Teilnehmer_Beginn.CSV` muss vorliegen und mindestens folgende Spalten enthalten:
+Die Datei `data/Teilnehmer_Beginn.CSV` muss vorliegen und mindestens folgende Spalten enthalten:
 
 | Spaltenname | Beispiel | Beschreibung |
 |-------------|----------|-------------|
@@ -64,8 +64,8 @@ Die Datei `Teilnehmer_Beginn.CSV` muss vorliegen und mindestens folgende Spalten
 - **Zeichenkodierung:** Windows-1252 (ISO-8859-1) oder UTF-8
 - **Zeilenumbrüche:** Windows-Standard (CRLF)
 
-**Beispiel `Teilnehmer_Beginn.CSV`:**
-```
+**Beispiel `data/Teilnehmer_Beginn.CSV`:**
+```csv
 Name;Maßnahme;Maßnahmekürzel
 Müller, Klaus;KBM 2601;KBM
 Schmidt, Maria;KBM 2601;KBM
@@ -82,9 +82,9 @@ Bauer, Tim;BFK 2601;BFK
 
 Die Anwendung versucht automatisch folgende Werte zu erkennen und vorzufüllen:
 
-- **CSV-Datei:** `Teilnehmer_Beginn.CSV` (im gleichen Ordner)
-- **Ausgabe-Ordner:** Ein Ordner `_Ausgabe` im gleichen Verzeichnis
-- **_Listen-Ordner:** `_Listen` im gleichen Verzeichnis
+- **CSV-Datei:** `data/Teilnehmer_Beginn.CSV` (im Anwendungsverzeichnis)
+- **Ausgabe-Ordner:** Anwendungsverzeichnis (Ordner der EXE)
+- **Ablagesystem-Ordner:** `data/Ablagesystem` (im Anwendungsverzeichnis)
 
 Falls diese nicht gefunden werden oder angepasst werden sollen:
 1. Auf **„…"** (Durchsuchen) klicken
@@ -102,11 +102,11 @@ Falls diese nicht gefunden werden oder angepasst werden sollen:
 Nach erfolgreichem Abschluss:
 - Ein neuer Ordner `Jahrgang XXXX` (z. B. `Jahrgang 2601`) ist im Ausgabe-Ordner entstanden
 - **Manuell in den Ordner wechseln** und die Struktur überprüfen:
-  - 26 Unterordner für die Teilnehmer (mit dem Muster `Name - Maßnahmekürzel`)
-  - In jedem Teilnehmer-Ordner: Unterordner aus `_Listen` (z. B. `LEK-Ergebnisse`, `Berichte Praxisphase`, …)
-  - In `LEK-Ergebnisse`: Umbenannte Excel-Datei (z. B. `LEK- und ICDL-Ergebnisse Müller, Klaus - KBM.xlsm`)
-  - Im Excel: Tabellenblatt „Muster" wurde umbenannt in `Müller, Klaus`
-  - Eine Datei `Anwesenheitsliste KFL 2601.docx` im Jahrgangsordner
+- 26 Unterordner für die Teilnehmer (mit dem Muster `Name - Maßnahmekürzel`)
+- In jedem Teilnehmer-Ordner: Unterordner aus `data/Ablagesystem` (z. B. `LEK-Ergebnisse`, `Berichte Praxisphase`, …)
+- In `LEK-Ergebnisse`: Umbenannte Excel-Datei (z. B. `LEK- und ICDL-Ergebnisse Müller, Klaus - KBM.xlsm`)
+- Im Excel: Tabellenblatt „Muster" wurde umbenannt in `Müller, Klaus`
+- Eine Datei `Anwesenheitsliste KFL 2601.docx` im Jahrgangsordner
 
 ---
 
@@ -114,8 +114,8 @@ Nach erfolgreichem Abschluss:
 
 Nach erfolgreichem Ablauf entsteht folgende Struktur:
 
-```
-_Ausgabe/
+```text
+<Ausgabe-Ordner>/
 └── Jahrgang 2601/
     ├── Anwesenheitsliste KFL 2601.docx
     ├── Müller, Klaus - KBM/
@@ -144,7 +144,7 @@ _Ausgabe/
 4. **Speichern:** 
    - Format: **CSV (Trennzeichen-getrennt) (.csv)**
    - **Trennzeichen:** Semikolon (`;`)
-   - **Dateiname:** `Teilnehmer_Beginn.CSV`
+   - **Dateiname:** `data/Teilnehmer_Beginn.CSV`
 
 ### Jahrgangsordner verwalten
 
@@ -158,7 +158,7 @@ Standardmäßig wird der neue `Jahrgang XXXX`-Ordner im Ausgabe-Ordner erstellt.
 
 Falls sich die Vorlagen ändern:
 1. **Word/Excel öffnen** → Vorlage bearbeiten
-2. **Speichern** unter demselben Namen im `_Listen`-Ordner
+2. **Speichern** unter demselben Namen im Ordner `data/Ablagesystem`
 3. **Anwendung neu starten** → Die neuen Vorlagen werden verwendet
 
 ---
@@ -168,11 +168,11 @@ Falls sich die Vorlagen ändern:
 ### Log zeigt Fehler
 
 **Fehler: CSV-Datei nicht gefunden**
-- Sicherstellen, dass `Teilnehmer_Beginn.CSV` im Ausgangsordner oder via Button ausgewählt ist
+- Sicherstellen, dass `data/Teilnehmer_Beginn.CSV` vorhanden ist oder via Button ausgewählt wurde
 - **Dateiname-Schreibweise prüfen** (Groß-/Kleinschreibung beachten)
 
-**Fehler: _Listen-Ordner nicht gefunden**
-- Den `_Listen`-Ordner im Ausgangsordner ablegen oder via Button auswählen
+**Fehler: Ablagesystem-Ordner nicht gefunden**
+- Den Ordner `data/Ablagesystem` im Anwendungsverzeichnis bereitstellen oder via Button auswählen
 - Sicherstellen, dass die Vorlagen-Dateien darin enthalten sind
 
 **Fehler: Maßnahme zu kurz**

@@ -46,13 +46,13 @@ git clone https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable.git
 cd TN-Doku-Ersteller-Portable
 
 # Virtuelle Umgebung und Packages installieren
-.\setup.ps1
+.\src\setup.ps1
 
 # Anwendung starten (Entwicklungsmodus)
 .\.venv\Scripts\python.exe src/main.py
 
 # EXE bauen
-.\build.ps1
+.\src\build.ps1
 ```
 
 Danach liegt die EXE in: `dist/TN-Doku-Ersteller-Portable-v{version}/TN-Doku-Ersteller-Portable.exe`
@@ -61,12 +61,12 @@ Danach liegt die EXE in: `dist/TN-Doku-Ersteller-Portable-v{version}/TN-Doku-Ers
 
 ## Vorbereitung der Daten
 
-### 1. _Listen-Ordner vorbereiten
+### 1. Ablagesystem-Ordner vorbereiten
 
-Der `_Listen`-Ordner muss folgende Dateien/Ordner enthalten:
+Der Ordner `data/Ablagesystem` muss folgende Dateien/Ordner enthalten:
 
-```
-_Listen/
+```text
+data/Ablagesystem/
 ├── Anwesenheitsliste.docx              (ERFORDERLICH)
 ├── LEK-Ergebnisse/
 │   └── LEK- und ICDL-Ergebnisse Muster - KBM.xlsm  (ERFORDERLICH)
@@ -79,14 +79,14 @@ _Listen/
 ```
 
 **Anleitung:**
-1. Im entpackten Ordner auf den Ordner `_Listen` prüfen
-2. Falls nicht vorhanden: Ordner `_Listen` manuell erstellen
+1. Im entpackten Ordner auf den Ordner `data/Ablagesystem` prüfen
+2. Falls nicht vorhanden: Ordner `data/Ablagesystem` manuell erstellen
 3. Erforderliche Dateien einfügen (siehe oben)
 4. Optionale Ordner nach Bedarf hinzufügen
 
 ### 2. Teilnehmerliste vorbereiten
 
-**Dateiname:** `Teilnehmer_Beginn.CSV`
+**Dateiname:** `data/Teilnehmer_Beginn.CSV`
 **Format:** Semikolon-getrennt (CSV)
 **Trennzeichen:** `;` (Semikolon)
 **Zeichenkodierung:** Windows-1252 oder UTF-8
@@ -132,18 +132,18 @@ _Listen/
 3. **Speichern unter:**
    - **Dateiname:** `Teilnehmer_Beginn.CSV`
    - **Kodierung:** UTF-8 oder Windows-1252
-4. **In gleichen Ordner wie die EXE legen**
+4. **In den Ordner `data/` legen**
 
 ### 3. Ausgabe-Ordner vorbereiten
 
 Der Ausgabe-Ordner wird automatisch erkannt oder kann manuell ausgewählt werden.
 
 **Automatische Erkennung:**
-- Die Anwendung sucht nach einem Ordner namens `_Ausgabe` im gleichen Verzeichnis
-- Falls nicht vorhanden, wird er beim Konfigurieren angelegt
+- Die Anwendung verwendet standardmäßig das Anwendungsverzeichnis (Ordner der EXE)
+- Alternativ kann ein beliebiger Ausgabe-Ordner manuell gewählt werden
 
 **Manuell:**
-1. Einen neuen Ordner erstellen (z. B. `_Ausgabe` oder `Jahrgänge`)
+1. Einen neuen Ordner erstellen (z. B. `Jahrgänge`)
 2. Im GUI-Fenster auf **„…"** (neben „Ausgabe-Ordner") klicken
 3. Den Ordner auswählen
 
@@ -164,9 +164,9 @@ Das GUI-Fenster öffnet sich.
 
 | Feld | Automatische Erkennung | Manuell anpassen |
 |------|----------------------|------------------|
-| **CSV-Datei** | `Teilnehmer_Beginn.CSV` (im gleichen Ordner) | Button „…" klicken |
-| **Ausgabe-Ordner** | `_Ausgabe` (im gleichen Ordner) | Button „…" klicken |
-| **_Listen-Ordner** | `_Listen` (im gleichen Ordner) | Button „…" klicken |
+| **CSV-Datei** | `data/Teilnehmer_Beginn.CSV` (im Anwendungsverzeichnis) | Button „…" klicken |
+| **Ausgabe-Ordner** | Anwendungsverzeichnis (Ordner der EXE) | Button „…" klicken |
+| **Ablagesystem-Ordner** | `data/Ablagesystem` (im Anwendungsverzeichnis) | Button „…" klicken |
 
 ### Schritt 3: CSV-Vorschau überprüfen
 
@@ -189,7 +189,7 @@ Falls die Tabelle **leer** oder **fehlerhaft** ist → CSV-Datei nochmal überpr
 2. Den neuen Ordner `Jahrgang 2601` (oder ähnlich) öffnen
 3. Prüfen:
    - ✅ **26 Teilnehmer-Ordner** mit Namen (z. B. `Müller, Klaus - KBM`)
-   - ✅ **In jedem Ordner:** Unterordner aus `_Listen` (z. B. `LEK-Ergebnisse`)
+   - ✅ **In jedem Ordner:** Unterordner aus `data/Ablagesystem` (z. B. `LEK-Ergebnisse`)
    - ✅ **In `LEK-Ergebnisse`:** Umbenannte Excel-Datei (z. B. `LEK- und ICDL-Ergebnisse Müller, Klaus - KBM.xlsm`)
    - ✅ **Datei `Anwesenheitsliste KFL 2601.docx`** im Jahrgangsordner
 
@@ -220,6 +220,7 @@ Falls alles OK → **Fertig!**
 **Lösungen:**
 1. **Dateiname prüfen:**
    - Muss exakt `Teilnehmer_Beginn.CSV` heißen (Groß-/Kleinschreibung!)
+   - Standardpfad ist `data/Teilnehmer_Beginn.CSV`
 2. **Format prüfen:**
    - Öffne die CSV im Texteditor (Notepad)
    - Spalten müssen mit `;` getrennt sein
@@ -229,15 +230,15 @@ Falls alles OK → **Fertig!**
 4. **Manuell auswählen:**
    - Button „…" klicken und die Datei manuell auswählen
 
-### _Listen-Ordner nicht gefunden
+### Ablagesystem-Ordner nicht gefunden
 
-**Problem:** Das Tool sagt, dass der _Listen-Ordner nicht vorhanden ist
+**Problem:** Das Tool sagt, dass der Ablagesystem-Ordner nicht vorhanden ist
 
 **Lösungen:**
 1. **Ordner prüfen:**
-   - Im Windows-Explorer: Ist der Ordner `_Listen` im gleichen Verzeichnis wie die EXE?
+   - Im Windows-Explorer: Ist der Ordner `data/Ablagesystem` im gleichen Verzeichnis wie die EXE?
 2. **Ordner erstellen:**
-   - Falls nicht vorhanden: Neuen Ordner `_Listen` erstellen
+   - Falls nicht vorhanden: Neuen Ordner `data/Ablagesystem` erstellen
    - Erforderliche Dateien einfügen:
      - `Anwesenheitsliste.docx`
      - `LEK-Ergebnisse/` (mit Excel-Musterdatei)
@@ -270,7 +271,7 @@ Die Anwendung ist **portabel** – keine echte Installation nötig!
 
 Nach erfolgreicher Installation:
 
-1. **Dokumentation lesen:** [ANWENDERDOKUMENTATION.md](ANWENDERDOKUMENTATION.md)
-2. **Technische Details:** [TECHNISCHE_DOKUMENTATION.md](TECHNISCHE_DOKUMENTATION.md) (für Entwickler)
+1. **Dokumentation lesen:** [DOKUMENTATION_ANWENDER.md](DOKUMENTATION_ANWENDER.md)
+2. **Technische Details:** [DOKUMENTATION_TECHNIK.md](DOKUMENTATION_TECHNIK.md) (für Entwickler)
 3. **Häufige Fragen:** [FAQ.md](FAQ.md)
 

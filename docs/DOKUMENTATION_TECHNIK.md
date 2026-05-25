@@ -18,7 +18,7 @@ TN-Doku-Ersteller-Portable ist eine eigenständige Windows-Anwendung (EXE), die 
 | **Core Logic** | `src/core.py` | 5-Schritte-Pipeline, Office-Dateiverarbeitung |
 | **CSV-Import** | `src/csv_reader.py` | CSV-Parsing mit Encoding-Erkennung |
 | **Versioning** | `src/build_info.py` | Versionsinformation, Build-Datum |
-| **Build** | `build.ps1` | PyInstaller-Automatisierung, Version-Bump |
+| **Build** | `src/build.ps1` | PyInstaller-Automatisierung, Version-Bump |
 
 ### Abhängigkeiten
 
@@ -149,13 +149,13 @@ BUILD_INFO = {
 }
 ```
 
-Wird von `build.ps1` automatisch aktualisiert.
+Wird von `src/build.ps1` automatisch aktualisiert.
 
 ---
 
 ## Build-System
 
-### build.ps1
+### src/build.ps1
 
 PowerShell-Skript für vollautomatisches Build & Release.
 
@@ -181,15 +181,15 @@ PowerShell-Skript für vollautomatisches Build & Release.
 
 **Beispiele:**
 ```powershell
-.\build.ps1                    # Vollständiger Build mit Version-Bump
-.\build.ps1 -NoVersionBump     # Nur EXE/ZIP, ohne Version-Erhöhung
-.\build.ps1 -SkipZip           # EXE + Dateien, kein ZIP
-.\build.ps1 -Quiet             # Im Hintergrund, für CI/CD
+.\src\build.ps1                    # Vollständiger Build mit Version-Bump
+.\src\build.ps1 -NoVersionBump     # Nur EXE/ZIP, ohne Version-Erhöhung
+.\src\build.ps1 -SkipZip           # EXE + Dateien, kein ZIP
+.\src\build.ps1 -Quiet             # Im Hintergrund, für CI/CD
 ```
 
 ---
 
-### TN-Doku-Ersteller-Portable.spec
+### src/TN-Doku-Ersteller-Portable.spec
 
 PyInstaller-Konfiguration.
 
@@ -240,8 +240,8 @@ Jahrgang XXXX/
 ### Für Entwickler
 
 1. Git-Repository klonen
-2. `.\setup.ps1` ausführen (`.venv` + Packages installieren)
-3. `.\build.ps1` ausführen (EXE + ZIP erstellen)
+2. `.\src\setup.ps1` ausführen (`.venv` + Packages installieren)
+3. `.\src\build.ps1` ausführen (EXE + ZIP erstellen)
 4. Dateien landen in:
     - Onefile-EXE (Build-Output): `dist/TN-Doku-Ersteller-Portable.exe`
     - Verteilungsordner: `dist/TN-Doku-Ersteller-Portable-v{version}/`
@@ -315,7 +315,7 @@ Beispiel:
 ```
 fix: Anwesenheitsliste – Datum-Tab korrigiert, leere Zeile entfernt, 1-Seiten-Fit
 feat: CSV-Vorschau in der GUI hinzugefügt
-build: EXE v3.0.1 – Onefile-Release via build.ps1
+build: EXE v3.0.1 – Onefile-Release via src/build.ps1
 ```
 
 ---
@@ -327,7 +327,7 @@ build: EXE v3.0.1 – Onefile-Release via build.ps1
 1. **CSV-Test:** Verschiedene Encodings testen (Windows-1252, UTF-8)
 2. **GUI-Test:** Pfad-Auswahl, Vorschau, Fehlerbehandlung
 3. **Core-Test:** `run_all()` mit realen Daten testen
-4. **Build-Test:** `build.ps1` mit verschiedenen Flags testen
+4. **Build-Test:** `src/build.ps1` mit verschiedenen Flags testen
 
 ### Automationstest
 
