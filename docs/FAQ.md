@@ -266,6 +266,3 @@ Bauer, Tim;IBA 2601;IBA           ← Gleicher Suffix: 2601
 - Oder [DOKUMENTATION_TECHNIK.md](DOKUMENTATION_TECHNIK.md) (für Entwickler)
 - GitHub Issues: [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
 - Entwicklung kontaktieren
-
-
-

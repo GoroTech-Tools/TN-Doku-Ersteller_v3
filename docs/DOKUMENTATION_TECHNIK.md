@@ -352,4 +352,3 @@ build: EXE v3.0.5 – Onefile-Release via src/build.ps1
 ## Lizenz & Attribution
 
 Siehe `LICENSE` im Projekt-Wurzel.
-

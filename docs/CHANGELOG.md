@@ -355,4 +355,3 @@ Beispiele:
 Entwicklung für Bildungseinrichtung.
 
 Dank an alle Tester und Nutzer für Feedback und Verbesserungsvorschläge!
-

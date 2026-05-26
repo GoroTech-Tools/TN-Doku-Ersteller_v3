@@ -48,6 +48,94 @@ function Write-Host {
     }
 }
 
+function Normalize-MarkdownContent {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Content
+    )
+
+    # Auf LF normalisieren für verlässliche Verarbeitung
+    $normalized = $Content -replace "`r`n", "`n" -replace "`r", "`n"
+    $lines = $normalized -split "`n", -1
+
+    $result = [System.Collections.Generic.List[string]]::new()
+    $blankStreak = 0
+
+    foreach ($line in $lines) {
+        $isBlank = [string]::IsNullOrWhiteSpace($line)
+        if ($isBlank) {
+            $blankStreak++
+            # Maximal eine Leerzeile in Folge (MD012)
+            if ($blankStreak -le 1) {
+                $result.Add("")
+            }
+            continue
+        }
+
+        $blankStreak = 0
+
+        # Trailing Spaces entfernen, aber exakt zwei Spaces (Hard Line Break) beibehalten
+        if ($line -match "  $") {
+            $cleanLine = $line -replace "[\t ]{3,}$", "  "
+        } else {
+            $cleanLine = $line -replace "[\t ]+$", ""
+        }
+        $result.Add($cleanLine)
+    }
+
+    # Führende/abschließende Leerzeilen entfernen
+    while ($result.Count -gt 0 -and [string]::IsNullOrWhiteSpace($result[0])) {
+        $result.RemoveAt(0)
+    }
+    while ($result.Count -gt 0 -and [string]::IsNullOrWhiteSpace($result[$result.Count - 1])) {
+        $result.RemoveAt($result.Count - 1)
+    }
+
+    $cleaned = ($result -join "`r`n")
+
+    # Harte Absicherung gegen MD012: niemals mehr als eine Leerzeile in Folge
+    $cleaned = [regex]::Replace($cleaned, '(\r?\n){3,}', "`r`n`r`n")
+
+    # Genau einen abschließenden Zeilenumbruch sicherstellen
+    return ($cleaned.TrimEnd("`r", "`n") + "`r`n")
+}
+
+function Invoke-MarkdownCleanup {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ProjectDir
+    )
+
+    Write-Host "Markdown-Bereinigung (MD-Standardfehler) ..." -ForegroundColor Yellow
+
+    $ignoreRegex = '\\.venv\\|\\.git\\|\\dist\\|\\build\\|\\node_modules\\'
+    $targets = Get-ChildItem -Path $ProjectDir -Recurse -File -Filter *.md |
+        Where-Object { $_.FullName -notmatch $ignoreRegex } |
+        Select-Object -ExpandProperty FullName
+
+    $updated = 0
+    $enc = [Text.UTF8Encoding]::new($false)
+
+    $targetFiles = $targets | Sort-Object -Unique
+
+    foreach ($file in $targetFiles) {
+        try {
+            $original = [IO.File]::ReadAllText($file, $enc)
+            $cleaned = Normalize-MarkdownContent -Content $original
+            if ($original -ne $cleaned) {
+                [IO.File]::WriteAllText($file, $cleaned, $enc)
+                $updated++
+            }
+        } catch {
+            Write-Host "  Hinweis: Markdown-Bereinigung übersprungen für '$file' ($_)" -ForegroundColor Yellow
+        }
+    }
+
+    Write-Host "  Markdown-Dateien geprüft: $($targetFiles.Count), angepasst: $updated" -ForegroundColor DarkGray
+}
+
 function New-ReleaseNotesContent {
     [CmdletBinding()]
     param(
@@ -173,6 +261,9 @@ if (Test-Path $buildInfoPath) {
     Write-Host "src/build_info.py nicht gefunden!" -ForegroundColor Red
     exit 1
 }
+
+# Typische Markdown-Fehler vor dem Build bereinigen (u. a. MD009/MD012/EOF-Newline)
+Invoke-MarkdownCleanup -ProjectDir $projectDir
 
 Write-Host "`nTN-Doku-Ersteller-Portable Build-Prozess" -ForegroundColor Green
 Write-Host "=========================================" -ForegroundColor Green
@@ -327,7 +418,9 @@ Write-Host "`n4. Release Notes erzeugen ..." -ForegroundColor Yellow
 $releaseNotesName = "RELEASE_NOTES_v$newVersion.md"
 $releaseNotesPath = Join-Path $releaseDir $releaseNotesName
 $releaseNotesContent = New-ReleaseNotesContent -Version $newVersion -ProjectDir $projectDir -DistPath $distPath -ZipName $zipName
-Set-Content -Path $releaseNotesPath -Value $releaseNotesContent -Encoding UTF8
+$releaseNotesContent = Normalize-MarkdownContent -Content $releaseNotesContent
+$utf8NoBom = [Text.UTF8Encoding]::new($false)
+[IO.File]::WriteAllText($releaseNotesPath, $releaseNotesContent, $utf8NoBom)
 Write-Host "Release Notes: $releaseNotesName" -ForegroundColor Green
 
 # ---------------------------------------------------------------------------

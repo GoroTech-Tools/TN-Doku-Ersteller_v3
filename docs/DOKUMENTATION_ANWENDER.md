@@ -218,4 +218,3 @@ Bei Fragen oder Problemen:
 1. Diese Anleitung durchlesen (siehe Fehlerbehandlung)
 2. Die Logs im Fenster überprüfen
 3. Den Fehler notieren und an die Entwicklung weitergeben
-

@@ -274,4 +274,3 @@ Nach erfolgreicher Installation:
 1. **Dokumentation lesen:** [DOKUMENTATION_ANWENDER.md](DOKUMENTATION_ANWENDER.md)
 2. **Technische Details:** [DOKUMENTATION_TECHNIK.md](DOKUMENTATION_TECHNIK.md) (für Entwickler)
 3. **Häufige Fragen:** [FAQ.md](FAQ.md)
-
