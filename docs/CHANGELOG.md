@@ -14,6 +14,20 @@ _Keine Änderungen._
 
 ---
 
+## [3.0.6] – 2026-05-26
+
+### Changed (3.0.6)
+
+- Versionsreferenzen in der Dokumentation auf `3.0.6` aktualisiert (`DOKUMENTATION_ANWENDER`, `DOKUMENTATION_TECHNIK`, `INSTALLATION`).
+- Build-/Release-Lauf für `v3.0.6` mit neuem ZIP-Artefakt (`TN-Doku-Ersteller-Portable_3.0.6.zip`) durchgeführt.
+
+### Fixed (3.0.6)
+
+- Markdown-Bereinigung im Build-Prozess gehärtet, damit mehrere aufeinanderfolgende Leerzeilen (MD012) zuverlässig entfernt werden.
+- Erzeugung von Release Notes stabilisiert: Inhalte werden vor dem Schreiben normalisiert, um MD012-Restfehler zu vermeiden.
+
+---
+
 ## [3.0.5] – 2026-05-26
 
 ### Changed (3.0.5)
