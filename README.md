@@ -7,7 +7,7 @@ für neue Ausbildungsgruppen der Bildungseinrichtung.
 
 ## Version
 
-3.0.4 (Build: 26.05.2026)
+3.0.5 (Build: 26.05.2026)
 
 ## Funktionen
 
@@ -34,7 +34,7 @@ für neue Ausbildungsgruppen der Bildungseinrichtung.
 4. `TN-Doku-Ersteller-Portable.exe` starten.
 5. CSV-Datei und Ausgabe-Ordner prüfen (werden automatisch vorausgefüllt).
 6. Auf **„Dokumentation erstellen"** klicken.
-7. Den neu erstellten `Jahrgang XXXX`-Ordner ins entsprechende Ablagesystem verschieben.
+7. Ergebnisse im Ordner `output` prüfen (`Jahrgang XXXX` + `Anwesenheitsliste KFL XXXX.docx`).
 
 **Erste Schritte:** Siehe [docs/INSTALLATION.md](docs/INSTALLATION.md) oder [docs/DOKUMENTATION_ANWENDER.md](docs/DOKUMENTATION_ANWENDER.md)
 
@@ -118,6 +118,7 @@ Siehe [docs/CHANGELOG.md](docs/CHANGELOG.md) für die vollständige Versionsgesc
 - **Issues & Feedback:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
 - **Lizenz:** [LICENSE](docs/LICENSE)
 - **Dokumentation:** [docs/](docs/)
+
 
 
 

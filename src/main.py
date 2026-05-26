@@ -84,17 +84,6 @@ class App(tk.Tk):
             row=2, column=2, padx=(4, 0), pady=3
         )
 
-        # Speicherort für Anwesenheitsliste
-        ttk.Label(frm_top, text="Anwesenheitsliste-Ordner:").grid(
-            row=3, column=0, sticky="w", padx=(0, 6), pady=3
-        )
-        self._anw_var = tk.StringVar()
-        self._anw_entry = ttk.Entry(frm_top, textvariable=self._anw_var)
-        self._anw_entry.grid(row=3, column=1, sticky="ew", pady=3)
-        ttk.Button(frm_top, text="Ordner …", command=self._browse_anwesenheit, width=10).grid(
-            row=3, column=2, padx=(4, 0), pady=3
-        )
-
         # ── Teilnehmer-Vorschau ─────────────────────────────────────────
         frm_list = ttk.LabelFrame(self, text="Teilnehmer (0)", padding=8)
         frm_list.pack(fill="both", expand=True, padx=10, pady=4)
@@ -189,7 +178,7 @@ class App(tk.Tk):
             self._csv_var.set(default_csv_rel)
 
         # Ausgabe: Standard relativ zum EXE-Ordner
-        self._out_var.set(".")
+        self._out_var.set("output")
 
         # Ablagesystem: bevorzugt relativ in data/, Legacy-Fallback im App-Verzeichnis
         default_lists_rel = os.path.join("data", "Ablagesystem")
@@ -200,9 +189,6 @@ class App(tk.Tk):
             self._lists_var.set(legacy_lists_rel)
         else:
             self._lists_var.set(default_lists_rel)
-
-        # Anwesenheitsliste: eigener Zielordner (relativ zur EXE)
-        self._anw_var.set(os.path.join("output", "Anwesenheitslisten"))
 
         # Ggf. direkt laden
         if os.path.isfile(self._resolve_path(self._csv_var.get())):
@@ -257,14 +243,6 @@ class App(tk.Tk):
         )
         if path:
             self._lists_var.set(os.path.abspath(path))
-
-    def _browse_anwesenheit(self):
-        path = filedialog.askdirectory(
-            title="Anwesenheitslisten-Ordner auswählen",
-            initialdir=self._resolve_path(self._anw_var.get()) or self._app_dir,
-        )
-        if path:
-            self._anw_var.set(os.path.abspath(path))
 
     # ------------------------------------------------------------------
     # CSV laden & Vorschau
@@ -322,8 +300,16 @@ class App(tk.Tk):
             messagebox.showwarning("Keine Daten", "Bitte zuerst eine CSV-Datei laden.")
             return
         out_dir = self._resolve_path(self._out_var.get())
-        if not out_dir or not os.path.isdir(out_dir):
+        if not out_dir:
             messagebox.showerror("Ungültiger Pfad", "Bitte einen gültigen Ausgabe-Ordner wählen.")
+            return
+        try:
+            os.makedirs(out_dir, exist_ok=True)
+        except Exception as e:
+            messagebox.showerror(
+                "Ungültiger Pfad",
+                f"Der Ausgabe-Ordner konnte nicht erstellt werden:\n{out_dir}\n\n{e}"
+            )
             return
         lists_dir = self._resolve_path(self._lists_var.get())
         if not lists_dir or not os.path.isdir(lists_dir):
@@ -331,21 +317,6 @@ class App(tk.Tk):
                 "Fehlender Ablagesystem-Ordner",
                 f"Der Ablagesystem-Ordner wurde nicht gefunden:\n{lists_dir}\n\n"
                 "Bitte den Pfad manuell konfigurieren."
-            )
-            return
-        anwesenheit_dir = self._resolve_path(self._anw_var.get())
-        if not anwesenheit_dir:
-            messagebox.showerror(
-                "Fehlender Pfad",
-                "Bitte einen gültigen Ordner für die Anwesenheitsliste angeben."
-            )
-            return
-        try:
-            os.makedirs(anwesenheit_dir, exist_ok=True)
-        except Exception as e:
-            messagebox.showerror(
-                "Ungültiger Pfad",
-                f"Der Anwesenheitslisten-Ordner konnte nicht erstellt werden:\n{anwesenheit_dir}\n\n{e}"
             )
             return
 
@@ -363,7 +334,6 @@ class App(tk.Tk):
                     participants=participants_snapshot,
                     output_dir=out_dir,
                     lists_dir=lists_dir,
-                    attendance_output_dir=anwesenheit_dir,
                     log=self._log_append_thread,
                 )
                 self.after(0, self._on_success, result)
@@ -393,11 +363,14 @@ class App(tk.Tk):
     # ------------------------------------------------------------------
 
     def _open_result(self):
-        path = self._result_path or self._resolve_path(self._out_var.get())
+        path = self._resolve_path(self._out_var.get())
         if path and os.path.isdir(path):
             os.startfile(path)
         else:
-            messagebox.showinfo("Kein Ergebnis", "Es wurde noch keine Verarbeitung durchgeführt.")
+            messagebox.showinfo(
+                "Ordner nicht gefunden",
+                "Der konfigurierte Ausgabe-Ordner wurde nicht gefunden."
+            )
 
     def _open_user_doc(self):
         self._open_doc(USER_DOC_FILE)
@@ -458,8 +431,9 @@ class App(tk.Tk):
     def _set_icon(self):
         """Setzt das Fenster-Icon aus app_icon.ico."""
         if getattr(sys, 'frozen', False):
-            # EXE-Modus: PyInstaller entpackt datas nach sys._MEIPASS
-            icon_path = os.path.join(sys._MEIPASS, "app_icon.ico")
+            # EXE-Modus: PyInstaller entpackt datas nach _MEIPASS
+            meipass_dir = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
+            icon_path = os.path.join(meipass_dir, "app_icon.ico")
         else:
             # Entwicklungsmodus: Icon liegt im src/-Verzeichnis neben main.py
             icon_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "app_icon.ico")

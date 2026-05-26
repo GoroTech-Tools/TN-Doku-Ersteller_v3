@@ -20,7 +20,7 @@
 
 ### Schritt 1: Archiv entpacken
 
-1. Die Datei `TN-Doku-Ersteller-Portable_3.0.4.zip` mit dem Windows-Explorer entpacken
+1. Die Datei `TN-Doku-Ersteller-Portable_3.0.5.zip` mit dem Windows-Explorer entpacken
 2. Der entpackte Ordner enthält die Anwendung und alle nötigen Dateien
 
 ### Schritt 2: Anwendung starten
@@ -83,9 +83,8 @@ Bauer, Tim;BFK 2601;BFK
 Die Anwendung versucht automatisch folgende Werte zu erkennen und vorzufüllen:
 
 - **CSV-Datei:** `data/Teilnehmer_Beginn.CSV`
-- **Ausgabe-Ordner:** `.` (Anwendungsverzeichnis / Ordner der EXE)
+- **Ausgabe-Ordner:** `output` (relativ zum Anwendungsverzeichnis / Ordner der EXE)
 - **Ablagesystem-Ordner:** `data/Ablagesystem`
-- **Anwesenheitsliste-Ordner:** `output/Anwesenheitslisten`
 
 Die Standardwerte werden als **relative Pfade zur EXE** angezeigt.
 
@@ -106,12 +105,12 @@ Bei manueller Auswahl übernimmt die Anwendung den Pfad als **absoluten Pfad**.
 
 Nach erfolgreichem Abschluss:
 - Ein neuer Ordner `Jahrgang XXXX` (z. B. `Jahrgang 2601`) ist im Ausgabe-Ordner entstanden
+- Eine Datei `Anwesenheitsliste KFL 2601.docx` liegt direkt im Ausgabe-Ordner
 - **Manuell in den Ordner wechseln** und die Struktur überprüfen:
 - 26 Unterordner für die Teilnehmer (mit dem Muster `Name - Maßnahmekürzel`)
 - In jedem Teilnehmer-Ordner: Unterordner aus `data/Ablagesystem` (z. B. `LEK-Ergebnisse`, `Berichte Praxisphase`, …)
 - In `LEK-Ergebnisse`: Umbenannte Excel-Datei (z. B. `LEK- und ICDL-Ergebnisse Müller, Klaus - KBM.xlsm`)
 - Im Excel: Tabellenblatt „Muster" wurde umbenannt in `Müller, Klaus`
-- Eine Datei `Anwesenheitsliste KFL 2601.docx` im konfigurierten **Anwesenheitsliste-Ordner**
 
 ---
 
@@ -121,6 +120,7 @@ Nach erfolgreichem Ablauf entsteht folgende Struktur:
 
 ```text
 <Ausgabe-Ordner>/
+├── Anwesenheitsliste KFL 2601.docx
 └── Jahrgang 2601/
    ├── Müller, Klaus - KBM/
    │   ├── LEK-Ergebnisse/
@@ -131,9 +131,6 @@ Nach erfolgreichem Ablauf entsteht folgende Struktur:
    ├── Schmidt, Maria - KBM/
    │   └── (gleiche Struktur)
    └── … (weitere Teilnehmer)
-
-<Anwesenheitsliste-Ordner>/
-└── Anwesenheitsliste KFL 2601.docx
 ```
 
 ---

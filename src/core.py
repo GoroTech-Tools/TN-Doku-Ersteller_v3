@@ -208,8 +208,7 @@ def rename_excel_sheets(
 def create_anwesenheitsliste(
     participants: list[dict],
     template_path: str,
-    jahrgang_path: str,
-    output_dir: str | None = None,
+    output_dir: str,
     log: Callable | None = None,
 ) -> None:
     """
@@ -224,9 +223,8 @@ def create_anwesenheitsliste(
     massnahme = participants[0].get('Maßnahme', '').strip()
     suffix = massnahme[-4:] if len(massnahme) >= 4 else massnahme
     out_filename = f"Anwesenheitsliste KFL {suffix}.docx"
-    target_dir = output_dir or jahrgang_path
-    os.makedirs(target_dir, exist_ok=True)
-    out_path = os.path.join(target_dir, out_filename)
+    os.makedirs(output_dir, exist_ok=True)
+    out_path = os.path.join(output_dir, out_filename)
 
     doc = Document(template_path)
 
@@ -325,7 +323,6 @@ def run_all(
     participants: list[dict],
     output_dir: str,
     lists_dir: str,
-    attendance_output_dir: str | None = None,
     log: Callable | None = None,
 ) -> str:
     """
@@ -348,8 +345,7 @@ def run_all(
     create_anwesenheitsliste(
         participants,
         anwesenheit_template,
-        jahrgang_path,
-        output_dir=attendance_output_dir,
+        output_dir,
         log=log,
     )
 

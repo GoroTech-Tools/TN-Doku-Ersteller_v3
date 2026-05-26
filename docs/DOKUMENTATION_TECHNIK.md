@@ -51,22 +51,22 @@ Hauptfenster der Anwendung.
 | `_browse_csv()` | Dateiauswahl-Dialog für CSV |
 | `_browse_output()` | Verzeichnisauswahl-Dialog für Ausgabe |
 | `_browse_lists()` | Verzeichnisauswahl-Dialog für Ablagesystem |
-| `_browse_anwesenheit()` | Verzeichnisauswahl-Dialog für Anwesenheitslisten |
 | `_start_run()` | Startet Verarbeitung in separatem Thread |
 | `_run_worker()` | Worker-Thread – führt `run_all()` aus |
 | `_log(msg, level)` | Schreibt in Log-Fenster |
 
 **GUI-Elemente:**
-- `Entry` für CSV-Pfad, Ausgabe-Ordner, Ablagesystem-Ordner und Anwesenheitsliste-Ordner
+- `Entry` für CSV-Pfad, Ausgabe-Ordner und Ablagesystem-Ordner
 - `Button` für Pfadauswahl („…")
 - `Treeview` für CSV-Vorschau (Name, Maßnahme, Kürzel)
 - `Text` für Log-Ausgabe
 - `Button` zum Starten („Dokumentation erstellen")
 
 **Pfadverhalten (GUI):**
-- Standardwerte werden als relative Pfade zur EXE angezeigt (z. B. `data/Teilnehmer_Beginn.CSV`, `.`, `data/Ablagesystem`, `output/Anwesenheitslisten`).
+- Standardwerte werden als relative Pfade zur EXE angezeigt (z. B. `data/Teilnehmer_Beginn.CSV`, `output`, `data/Ablagesystem`).
 - Bei manueller Auswahl über Dateidialoge werden absolute Pfade in die Eingabefelder übernommen.
 - Vor der Verarbeitung werden alle Pfade über `_resolve_path()` in normalisierte absolute Pfade umgewandelt.
+- Der Ausgabe-Ordner wird bei Bedarf automatisch erzeugt.
 
 **Threading:**
 - Verarbeitung läuft in `threading.Thread` – GUI bleibt responsive
@@ -97,15 +97,15 @@ Hauptfenster der Anwendung.
 - Benennt es um zu `{Name}` (nur Nachname+Vorname, ohne Kürzel)
 - Speichert mit `keep_vba=True`
 
-**5. `create_anwesenheitsliste(participants, template_path, jahrgang_path, output_dir=None, log=None)`**
+**5. `create_anwesenheitsliste(participants, template_path, output_dir, log=None)`**
 - Lädt Word-Vorlage (`Anwesenheitsliste.docx`)
 - Setzt Kopfzeile: `Anwesenheitsliste KFL {suffix}\tDatum:`
 - Entfernt leere Vorlage-Zeilen aus der Tabelle
 - Fügt pro Teilnehmer eine Zeile ein: Kürzel (fett) | Name
 - Berechnet Zeilenhöhen für 1-Seiten-Fit
-- Speichert als `Anwesenheitsliste KFL {suffix}.docx` im konfigurierten Zielordner
+- Speichert als `Anwesenheitsliste KFL {suffix}.docx` direkt im Ausgabe-Ordner
 
-#### Main Function: `run_all(participants, output_dir, lists_dir, attendance_output_dir=None, log=None)`
+#### Main Function: `run_all(participants, output_dir, lists_dir, log=None)`
 
 Orchestriert alle 5 Schritte in Reihenfolge. Gibt Pfad zum `jahrgang_path` zurück.
 
@@ -149,7 +149,7 @@ Ermittelt Basisverzeichnis:
 
 ```python
 BUILD_INFO = {
-    'version': '3.0.4',
+    'version': '3.0.5',
     'build_date': '2026-05-18T20:30:00',
     'python_version': '3.13.7',
     'platform': 'win32',
@@ -227,10 +227,11 @@ core.py (run_all)
     ├─→ Schritt 4: Blätter umbenennen
     └─→ Schritt 5: Anwesenheitsliste erstellen
     ↓
-Jahrgang XXXX/
-├── Teilnehmer 1/
-├── Teilnehmer 2/
-└── Anwesenheitsliste KFL XXXX.docx
+output/
+├── Anwesenheitsliste KFL XXXX.docx
+└── Jahrgang XXXX/
+    ├── Teilnehmer 1/
+    └── Teilnehmer 2/
 ```
 
 ---
@@ -322,7 +323,7 @@ Beispiel:
 ```
 fix: Anwesenheitsliste – Datum-Tab korrigiert, leere Zeile entfernt, 1-Seiten-Fit
 feat: CSV-Vorschau in der GUI hinzugefügt
-build: EXE v3.0.4 – Onefile-Release via src/build.ps1
+build: EXE v3.0.5 – Onefile-Release via src/build.ps1
 ```
 
 ---

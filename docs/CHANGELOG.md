@@ -14,6 +14,21 @@ _Keine Änderungen._
 
 ---
 
+## [3.0.5] – 2026-05-26
+
+### Changed (3.0.5)
+
+- Ausgabeziel vereinheitlicht: `Jahrgang XXXX` und `Anwesenheitsliste KFL XXXX.docx` werden beide direkt im Ordner `output` erzeugt.
+- GUI vereinfacht: separates Eingabefeld für Anwesenheitslisten-Zielordner entfernt.
+- Schaltfläche „Ergebnis-Ordner öffnen“ öffnet nun den konfigurierten Ausgabe-Ordner (`output`) statt eines `Jahrgang XXXX`-Unterordners.
+- Ausgabe-Ordner wird bei Bedarf automatisch erstellt.
+
+### Fixed (3.0.5)
+
+- Statischer Analyzer-Hinweis zu `sys._MEIPASS` beseitigt durch robusten Fallback-Zugriff via `getattr(...)` in der Icon-Pfadauflösung.
+
+---
+
 ## [3.0.4] – 2026-05-26
 
 ### Changed (3.0.4)
