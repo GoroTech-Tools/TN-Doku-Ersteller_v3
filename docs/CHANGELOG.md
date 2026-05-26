@@ -10,9 +10,15 @@ Format basiert auf [Keep a Changelog](https://keepachangelog.com/) und folgt [Se
 
 ## [Unreleased]
 
-### Changed
+_Keine Änderungen._
 
-- Build-/Setup-Einstieg auf `src/` vereinheitlicht (`src/build.ps1`, `src/setup.ps1`, `src/requirements.txt`).
+---
+
+## [3.0.2] – 2026-05-26
+
+### Changed (3.0.2)
+
+- Verzeichnisstruktur konsolidiert: Build-/Setup-Einstieg auf `src/` vereinheitlicht (`src/build.ps1`, `src/setup.ps1`, `src/requirements.txt`).
 - Root-`setup.ps1` dient als Kompatibilitäts-Entrypoint und delegiert an `src/setup.ps1`.
 
 ---
