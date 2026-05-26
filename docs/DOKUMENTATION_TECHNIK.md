@@ -47,19 +47,26 @@ Hauptfenster der Anwendung.
 | Methode | Beschreibung |
 |---------|-------------|
 | `_load_defaults()` | Versucht automatisch `Teilnehmer_Beginn.CSV` und `_Listen`-Ordner zu finden |
-| `_select_csv()` | Dateiauswahl-Dialog für CSV |
-| `_select_output()` | Verzeichnisauswahl-Dialog für Ausgabe |
-| `_select_lists()` | Verzeichnisauswahl-Dialog für _Listen |
+| `_resolve_path()` | Löst relative Eingaben relativ zum EXE-/App-Verzeichnis auf |
+| `_browse_csv()` | Dateiauswahl-Dialog für CSV |
+| `_browse_output()` | Verzeichnisauswahl-Dialog für Ausgabe |
+| `_browse_lists()` | Verzeichnisauswahl-Dialog für Ablagesystem |
+| `_browse_anwesenheit()` | Verzeichnisauswahl-Dialog für Anwesenheitslisten |
 | `_start_run()` | Startet Verarbeitung in separatem Thread |
 | `_run_worker()` | Worker-Thread – führt `run_all()` aus |
 | `_log(msg, level)` | Schreibt in Log-Fenster |
 
 **GUI-Elemente:**
-- `Entry` für CSV-Pfad, Ausgabe-Ordner, _Listen-Ordner
+- `Entry` für CSV-Pfad, Ausgabe-Ordner, Ablagesystem-Ordner und Anwesenheitsliste-Ordner
 - `Button` für Pfadauswahl („…")
 - `Treeview` für CSV-Vorschau (Name, Maßnahme, Kürzel)
 - `Text` für Log-Ausgabe
 - `Button` zum Starten („Dokumentation erstellen")
+
+**Pfadverhalten (GUI):**
+- Standardwerte werden als relative Pfade zur EXE angezeigt (z. B. `data/Teilnehmer_Beginn.CSV`, `.`, `data/Ablagesystem`, `output/Anwesenheitslisten`).
+- Bei manueller Auswahl über Dateidialoge werden absolute Pfade in die Eingabefelder übernommen.
+- Vor der Verarbeitung werden alle Pfade über `_resolve_path()` in normalisierte absolute Pfade umgewandelt.
 
 **Threading:**
 - Verarbeitung läuft in `threading.Thread` – GUI bleibt responsive
@@ -90,15 +97,15 @@ Hauptfenster der Anwendung.
 - Benennt es um zu `{Name}` (nur Nachname+Vorname, ohne Kürzel)
 - Speichert mit `keep_vba=True`
 
-**5. `create_anwesenheitsliste(participants, template_path, jahrgang_path, log=None)`**
+**5. `create_anwesenheitsliste(participants, template_path, jahrgang_path, output_dir=None, log=None)`**
 - Lädt Word-Vorlage (`Anwesenheitsliste.docx`)
 - Setzt Kopfzeile: `Anwesenheitsliste KFL {suffix}\tDatum:`
 - Entfernt leere Vorlage-Zeilen aus der Tabelle
 - Fügt pro Teilnehmer eine Zeile ein: Kürzel (fett) | Name
 - Berechnet Zeilenhöhen für 1-Seiten-Fit
-- Speichert als `Anwesenheitsliste KFL {suffix}.docx`
+- Speichert als `Anwesenheitsliste KFL {suffix}.docx` im konfigurierten Zielordner
 
-#### Main Function: `run_all(participants, output_dir, lists_dir, log=None)`
+#### Main Function: `run_all(participants, output_dir, lists_dir, attendance_output_dir=None, log=None)`
 
 Orchestriert alle 5 Schritte in Reihenfolge. Gibt Pfad zum `jahrgang_path` zurück.
 

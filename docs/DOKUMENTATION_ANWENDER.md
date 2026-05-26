@@ -82,17 +82,22 @@ Bauer, Tim;BFK 2601;BFK
 
 Die Anwendung versucht automatisch folgende Werte zu erkennen und vorzufüllen:
 
-- **CSV-Datei:** `data/Teilnehmer_Beginn.CSV` (im Anwendungsverzeichnis)
-- **Ausgabe-Ordner:** Anwendungsverzeichnis (Ordner der EXE)
-- **Ablagesystem-Ordner:** `data/Ablagesystem` (im Anwendungsverzeichnis)
+- **CSV-Datei:** `data/Teilnehmer_Beginn.CSV`
+- **Ausgabe-Ordner:** `.` (Anwendungsverzeichnis / Ordner der EXE)
+- **Ablagesystem-Ordner:** `data/Ablagesystem`
+- **Anwesenheitsliste-Ordner:** `output/Anwesenheitslisten`
+
+Die Standardwerte werden als **relative Pfade zur EXE** angezeigt.
 
 Falls diese nicht gefunden werden oder angepasst werden sollen:
-1. Auf **„…"** (Durchsuchen) klicken
+1. Auf **„Ordner …"** bzw. **„Öffnen …"** klicken
 2. Datei oder Ordner auswählen
+
+Bei manueller Auswahl übernimmt die Anwendung den Pfad als **absoluten Pfad**.
 
 #### Schritt C: Dokumentation erstellen
 
-1. Die Felder prüfen (sollten alle grün hinterlegt sein)
+1. Die Felder prüfen
 2. Die CSV-Vorschau durchsehen (Tabelle mit den Teilnehmern)
 3. Auf **„Dokumentation erstellen"** klicken
 4. **Warten** – der Prozess läuft im Hintergrund. Im Log-Bereich wird der Fortschritt angezeigt.
@@ -106,7 +111,7 @@ Nach erfolgreichem Abschluss:
 - In jedem Teilnehmer-Ordner: Unterordner aus `data/Ablagesystem` (z. B. `LEK-Ergebnisse`, `Berichte Praxisphase`, …)
 - In `LEK-Ergebnisse`: Umbenannte Excel-Datei (z. B. `LEK- und ICDL-Ergebnisse Müller, Klaus - KBM.xlsm`)
 - Im Excel: Tabellenblatt „Muster" wurde umbenannt in `Müller, Klaus`
-- Eine Datei `Anwesenheitsliste KFL 2601.docx` im Jahrgangsordner
+- Eine Datei `Anwesenheitsliste KFL 2601.docx` im konfigurierten **Anwesenheitsliste-Ordner**
 
 ---
 
@@ -117,16 +122,18 @@ Nach erfolgreichem Ablauf entsteht folgende Struktur:
 ```text
 <Ausgabe-Ordner>/
 └── Jahrgang 2601/
-    ├── Anwesenheitsliste KFL 2601.docx
-    ├── Müller, Klaus - KBM/
-    │   ├── LEK-Ergebnisse/
-    │   │   └── LEK- und ICDL-Ergebnisse Müller, Klaus - KBM.xlsm
-    │   ├── Berichte Praxisphase/
-    │   ├── Ergebnisse Lernsituationen/
-    │   └── …
-    ├── Schmidt, Maria - KBM/
-    │   └── (gleiche Struktur)
-    └── … (weitere Teilnehmer)
+   ├── Müller, Klaus - KBM/
+   │   ├── LEK-Ergebnisse/
+   │   │   └── LEK- und ICDL-Ergebnisse Müller, Klaus - KBM.xlsm
+   │   ├── Berichte Praxisphase/
+   │   ├── Ergebnisse Lernsituationen/
+   │   └── …
+   ├── Schmidt, Maria - KBM/
+   │   └── (gleiche Struktur)
+   └── … (weitere Teilnehmer)
+
+<Anwesenheitsliste-Ordner>/
+└── Anwesenheitsliste KFL 2601.docx
 ```
 
 ---
