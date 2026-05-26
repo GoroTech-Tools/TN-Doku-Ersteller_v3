@@ -209,6 +209,7 @@ def create_anwesenheitsliste(
     participants: list[dict],
     template_path: str,
     jahrgang_path: str,
+    output_dir: str | None = None,
     log: Callable | None = None,
 ) -> None:
     """
@@ -223,7 +224,9 @@ def create_anwesenheitsliste(
     massnahme = participants[0].get('Maßnahme', '').strip()
     suffix = massnahme[-4:] if len(massnahme) >= 4 else massnahme
     out_filename = f"Anwesenheitsliste KFL {suffix}.docx"
-    out_path = os.path.join(jahrgang_path, out_filename)
+    target_dir = output_dir or jahrgang_path
+    os.makedirs(target_dir, exist_ok=True)
+    out_path = os.path.join(target_dir, out_filename)
 
     doc = Document(template_path)
 
@@ -311,7 +314,7 @@ def create_anwesenheitsliste(
         _log("  Hinweis: Keine Tabelle in Vorlage gefunden – Liste ohne Tabelle.", log)
 
     doc.save(out_path)
-    _log(f"  Anwesenheitsliste erstellt: {out_filename}", log)
+    _log(f"  Anwesenheitsliste erstellt: {out_path}", log)
 
 
 # ---------------------------------------------------------------------------
@@ -322,6 +325,7 @@ def run_all(
     participants: list[dict],
     output_dir: str,
     lists_dir: str,
+    attendance_output_dir: str | None = None,
     log: Callable | None = None,
 ) -> str:
     """
@@ -341,7 +345,13 @@ def run_all(
 
     _log("Schritt 5/5: Anwesenheitsliste erstellen …", log)
     anwesenheit_template = os.path.join(lists_dir, 'Anwesenheitsliste.docx')
-    create_anwesenheitsliste(participants, anwesenheit_template, jahrgang_path, log)
+    create_anwesenheitsliste(
+        participants,
+        anwesenheit_template,
+        jahrgang_path,
+        output_dir=attendance_output_dir,
+        log=log,
+    )
 
     _log(f"\n✓ Fertig! Ergebnis: {jahrgang_path}", log)
     return jahrgang_path

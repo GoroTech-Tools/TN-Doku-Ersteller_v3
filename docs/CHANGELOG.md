@@ -14,6 +14,22 @@ _Keine Änderungen._
 
 ---
 
+## [3.0.3] – 2026-05-26
+
+### Added (3.0.3)
+
+- Neuer, separat konfigurierbarer Speicherort für die erzeugte Anwesenheitsliste in der GUI.
+
+### Changed (3.0.3)
+
+- Standardpfade in der GUI werden nun relativ zum EXE-Verzeichnis angezeigt (CSV, Ausgabe, Ablagesystem, Anwesenheitsliste).
+- Bei manueller Auswahl über Dateidialoge werden die Pfade als absolute Pfade übernommen.
+- Aktionsschaltflächen auf reine Textbeschriftung ohne Symbole umgestellt.
+- Schaltfläche „Dokumentation erstellen“ visuell hervorgehoben (fett/farbig).
+- GUI-Höhe und Protokollbereich vergrößert, damit mehr Log-Ausgabe sichtbar bleibt.
+
+---
+
 ## [3.0.2] – 2026-05-26
 
 ### Changed (3.0.2)

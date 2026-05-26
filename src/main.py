@@ -15,7 +15,7 @@ from csv_reader import read_participants
 
 APP_TITLE = f"TN-Doku-Ersteller-Portable v{BUILD_INFO['version']}"
 WINDOW_W = 780
-WINDOW_H = 620
+WINDOW_H = 700
 USER_DOC_FILE = "DOKUMENTATION_ANWENDER.md"
 TECH_DOC_FILE = "DOKUMENTATION_TECHNIK.md"
 
@@ -27,6 +27,7 @@ TECH_DOC_FILE = "DOKUMENTATION_TECHNIK.md"
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
+        self._app_dir = get_app_dir()
         self.title(APP_TITLE)
         self.resizable(True, True)
         self.minsize(620, 480)
@@ -80,6 +81,17 @@ class App(tk.Tk):
             row=2, column=2, padx=(4, 0), pady=3
         )
 
+        # Speicherort für Anwesenheitsliste
+        ttk.Label(frm_top, text="Anwesenheitsliste-Ordner:").grid(
+            row=3, column=0, sticky="w", padx=(0, 6), pady=3
+        )
+        self._anw_var = tk.StringVar()
+        self._anw_entry = ttk.Entry(frm_top, textvariable=self._anw_var)
+        self._anw_entry.grid(row=3, column=1, sticky="ew", pady=3)
+        ttk.Button(frm_top, text="Ordner …", command=self._browse_anwesenheit, width=10).grid(
+            row=3, column=2, padx=(4, 0), pady=3
+        )
+
         # ── Teilnehmer-Vorschau ─────────────────────────────────────────
         frm_list = ttk.LabelFrame(self, text="Teilnehmer (0)", padding=8)
         frm_list.pack(fill="both", expand=True, padx=10, pady=4)
@@ -106,16 +118,26 @@ class App(tk.Tk):
         ).pack(side="left", padx=(0, 6))
 
         ttk.Button(
-            frm_btn, text="📘 Anwender-Doku", command=self._open_user_doc
+            frm_btn, text="Anwender-Doku", command=self._open_user_doc
         ).pack(side="left", padx=(0, 6))
 
         ttk.Button(
-            frm_btn, text="🛠 Technik-Doku", command=self._open_tech_doc
+            frm_btn, text="Technik-Doku", command=self._open_tech_doc
         ).pack(side="left", padx=(0, 6))
 
-        self._run_btn = ttk.Button(
-            frm_btn, text="▶  Dokumentation erstellen",
-            command=self._start_run, state="disabled"
+        self._run_btn = tk.Button(
+            frm_btn,
+            text="Dokumentation erstellen",
+            command=self._start_run,
+            state="disabled",
+            font=("Segoe UI", 10, "bold"),
+            bg="#1f7a1f",
+            fg="white",
+            activebackground="#2a8f2a",
+            activeforeground="white",
+            relief="raised",
+            bd=1,
+            padx=10,
         )
         self._run_btn.pack(side="left")
 
@@ -133,7 +155,7 @@ class App(tk.Tk):
         frm_log.pack(fill="x", padx=10, pady=(0, 8))
 
         self._log_text = tk.Text(
-            frm_log, height=7, state="disabled",
+            frm_log, height=9, state="disabled",
             font=("Consolas", 9), wrap="word",
             background="#1e1e1e", foreground="#d4d4d4",
             insertbackground="white",
@@ -157,57 +179,97 @@ class App(tk.Tk):
     # ------------------------------------------------------------------
 
     def _load_defaults(self):
-        app_dir = get_app_dir()
-        # CSV: bevorzugt in data/, Legacy-Fallback im App-Verzeichnis
-        default_csv = os.path.join(app_dir, "data", "Teilnehmer_Beginn.CSV")
-        if not os.path.isfile(default_csv):
-            default_csv = os.path.join(app_dir, "Teilnehmer_Beginn.CSV")
-        if os.path.isfile(default_csv):
-            self._csv_var.set(default_csv)
-        # Ausgabe: App-Verzeichnis selbst
-        self._out_var.set(app_dir)
-        # Ablagesystem: bevorzugt in data/, Legacy-Fallback im App-Verzeichnis
-        default_lists = os.path.join(app_dir, "data", "Ablagesystem")
-        if not os.path.isdir(default_lists):
-            default_lists = os.path.join(app_dir, "_Listen")
-        self._lists_var.set(default_lists)
+        # CSV: bevorzugt relativ in data/, Legacy-Fallback im App-Verzeichnis
+        default_csv_rel = os.path.join("data", "Teilnehmer_Beginn.CSV")
+        legacy_csv_rel = "Teilnehmer_Beginn.CSV"
+        if os.path.isfile(self._resolve_path(default_csv_rel)):
+            self._csv_var.set(default_csv_rel)
+        elif os.path.isfile(self._resolve_path(legacy_csv_rel)):
+            self._csv_var.set(legacy_csv_rel)
+        else:
+            self._csv_var.set(default_csv_rel)
+
+        # Ausgabe: Standard relativ zum EXE-Ordner
+        self._out_var.set(".")
+
+        # Ablagesystem: bevorzugt relativ in data/, Legacy-Fallback im App-Verzeichnis
+        default_lists_rel = os.path.join("data", "Ablagesystem")
+        legacy_lists_rel = "_Listen"
+        if os.path.isdir(self._resolve_path(default_lists_rel)):
+            self._lists_var.set(default_lists_rel)
+        elif os.path.isdir(self._resolve_path(legacy_lists_rel)):
+            self._lists_var.set(legacy_lists_rel)
+        else:
+            self._lists_var.set(default_lists_rel)
+
+        # Anwesenheitsliste: eigener Zielordner (relativ zur EXE)
+        self._anw_var.set(os.path.join("output", "Anwesenheitslisten"))
+
         # Ggf. direkt laden
-        if os.path.isfile(default_csv):
+        if os.path.isfile(self._resolve_path(self._csv_var.get())):
             self._load_csv(silent=True)
+
+    def _resolve_path(self, path_value: str) -> str:
+        """Löst relative Pfade relativ zum EXE-/App-Verzeichnis auf."""
+        path_value = (path_value or "").strip()
+        if not path_value:
+            return ""
+        expanded = os.path.expandvars(os.path.expanduser(path_value))
+        if not os.path.isabs(expanded):
+            expanded = os.path.join(self._app_dir, expanded)
+        return os.path.normpath(expanded)
 
     # ------------------------------------------------------------------
     # Datei-/Ordner-Dialoge
     # ------------------------------------------------------------------
 
     def _browse_csv(self):
+        initial_csv = self._resolve_path(self._csv_var.get())
+        initial_dir = os.path.dirname(initial_csv) if initial_csv else self._app_dir
         path = filedialog.askopenfilename(
             title="Teilnehmer-CSV auswählen",
+            initialdir=initial_dir,
             filetypes=[("CSV-Dateien", "*.csv *.CSV"), ("Alle Dateien", "*.*")],
         )
         if path:
-            self._csv_var.set(path)
+            self._csv_var.set(os.path.abspath(path))
             self._load_csv()
 
     def _browse_output(self):
-        path = filedialog.askdirectory(title="Ausgabe-Ordner auswählen")
+        path = filedialog.askdirectory(
+            title="Ausgabe-Ordner auswählen",
+            initialdir=self._resolve_path(self._out_var.get()) or self._app_dir,
+        )
         if path:
-            self._out_var.set(path)
+            self._out_var.set(os.path.abspath(path))
 
     def _browse_lists(self):
-        path = filedialog.askdirectory(title="Ablagesystem-Ordner auswählen")
+        path = filedialog.askdirectory(
+            title="Ablagesystem-Ordner auswählen",
+            initialdir=self._resolve_path(self._lists_var.get()) or self._app_dir,
+        )
         if path:
-            self._lists_var.set(path)
+            self._lists_var.set(os.path.abspath(path))
+
+    def _browse_anwesenheit(self):
+        path = filedialog.askdirectory(
+            title="Anwesenheitslisten-Ordner auswählen",
+            initialdir=self._resolve_path(self._anw_var.get()) or self._app_dir,
+        )
+        if path:
+            self._anw_var.set(os.path.abspath(path))
 
     # ------------------------------------------------------------------
     # CSV laden & Vorschau
     # ------------------------------------------------------------------
 
     def _load_csv(self, silent: bool = False):
-        csv_path = self._csv_var.get().strip()
-        if not csv_path:
+        csv_input = self._csv_var.get().strip()
+        if not csv_input:
             if not silent:
                 messagebox.showwarning("Kein Pfad", "Bitte zuerst eine CSV-Datei auswählen.")
             return
+        csv_path = self._resolve_path(csv_input)
         try:
             self._participants = read_participants(csv_path)
             self._refresh_tree()
@@ -246,16 +308,31 @@ class App(tk.Tk):
         if not self._participants:
             messagebox.showwarning("Keine Daten", "Bitte zuerst eine CSV-Datei laden.")
             return
-        out_dir = self._out_var.get().strip()
+        out_dir = self._resolve_path(self._out_var.get())
         if not out_dir or not os.path.isdir(out_dir):
             messagebox.showerror("Ungültiger Pfad", "Bitte einen gültigen Ausgabe-Ordner wählen.")
             return
-        lists_dir = self._lists_var.get().strip()
+        lists_dir = self._resolve_path(self._lists_var.get())
         if not lists_dir or not os.path.isdir(lists_dir):
             messagebox.showerror(
                 "Fehlender Ablagesystem-Ordner",
                 f"Der Ablagesystem-Ordner wurde nicht gefunden:\n{lists_dir}\n\n"
                 "Bitte den Pfad manuell konfigurieren."
+            )
+            return
+        anwesenheit_dir = self._resolve_path(self._anw_var.get())
+        if not anwesenheit_dir:
+            messagebox.showerror(
+                "Fehlender Pfad",
+                "Bitte einen gültigen Ordner für die Anwesenheitsliste angeben."
+            )
+            return
+        try:
+            os.makedirs(anwesenheit_dir, exist_ok=True)
+        except Exception as e:
+            messagebox.showerror(
+                "Ungültiger Pfad",
+                f"Der Anwesenheitslisten-Ordner konnte nicht erstellt werden:\n{anwesenheit_dir}\n\n{e}"
             )
             return
 
@@ -273,6 +350,7 @@ class App(tk.Tk):
                     participants=participants_snapshot,
                     output_dir=out_dir,
                     lists_dir=lists_dir,
+                    attendance_output_dir=anwesenheit_dir,
                     log=self._log_append_thread,
                 )
                 self.after(0, self._on_success, result)
@@ -302,7 +380,7 @@ class App(tk.Tk):
     # ------------------------------------------------------------------
 
     def _open_result(self):
-        path = self._result_path or self._out_var.get().strip()
+        path = self._result_path or self._resolve_path(self._out_var.get())
         if path and os.path.isdir(path):
             os.startfile(path)
         else:
@@ -315,7 +393,7 @@ class App(tk.Tk):
         self._open_doc(TECH_DOC_FILE)
 
     def _open_doc(self, file_name: str):
-        app_dir = get_app_dir()
+        app_dir = self._app_dir
         candidates = [
             os.path.join(app_dir, "docs", file_name),
             os.path.join(app_dir, file_name),

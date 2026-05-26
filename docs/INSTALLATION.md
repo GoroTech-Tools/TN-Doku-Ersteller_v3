@@ -19,12 +19,12 @@
 ### Option 1: Portable EXE (empfohlen)
 
 **Schritt 1: Archiv herunterladen**
-- Die Datei `TN-Doku-Ersteller-Portable_3.0.2.zip` herunterladen
+- Die Datei `TN-Doku-Ersteller-Portable_3.0.3.zip` herunterladen
 
 **Schritt 2: Entpacken**
 1. **Rechtsklick** auf die ZIP-Datei
 2. **„Alle extrahieren" oder „Extract All"** auswählen
-3. Ein neuer Ordner `TN-Doku-Ersteller-Portable-v3.0.2` entsteht
+3. Ein neuer Ordner `TN-Doku-Ersteller-Portable-v3.0.3` entsteht
 
 **Schritt 3: Starten**
 1. Den entpackten Ordner öffnen
@@ -261,7 +261,7 @@ Falls alles OK → **Fertig!**
 Die Anwendung ist **portabel** – keine echte Installation nötig!
 
 **Zum Löschen:**
-- Den Ordner `TN-Doku-Ersteller-Portable-v3.0.2` einfach **löschen**
+- Den Ordner `TN-Doku-Ersteller-Portable-v3.0.3` einfach **löschen**
 - Keine Dateien in Windows-Registrierung oder `AppData` vorhanden
 - Fertig!
 
