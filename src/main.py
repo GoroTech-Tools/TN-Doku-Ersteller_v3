@@ -35,6 +35,7 @@ class App(tk.Tk):
         self._set_icon()
 
         self._participants: list[dict] = []
+        self._loaded_csv_path: str | None = None
         self._build()
         self._load_defaults()
 
@@ -55,6 +56,8 @@ class App(tk.Tk):
         self._csv_var = tk.StringVar()
         self._csv_entry = ttk.Entry(frm_top, textvariable=self._csv_var)
         self._csv_entry.grid(row=0, column=1, sticky="ew", pady=3)
+        self._csv_entry.bind("<FocusOut>", self._on_csv_entry_focus_out)
+        self._csv_entry.bind("<Return>", self._on_csv_entry_return)
         ttk.Button(frm_top, text="Öffnen …", command=self._browse_csv, width=10).grid(
             row=0, column=2, padx=(4, 0), pady=3
         )
@@ -98,7 +101,7 @@ class App(tk.Tk):
         self._frm_list = frm_list
 
         cols = ("Name", "Maßnahme", "Maßnahmekürzel")
-        self._tree = ttk.Treeview(frm_list, columns=cols, show="headings", height=4)
+        self._tree = ttk.Treeview(frm_list, columns=cols, show="headings", height=8)
         for col in cols:
             self._tree.heading(col, text=col)
         self._tree.column("Name", width=260)
@@ -114,15 +117,11 @@ class App(tk.Tk):
         frm_btn.pack(fill="x", padx=10, pady=4)
 
         ttk.Button(
-            frm_btn, text="CSV laden & Vorschau", command=self._load_csv
+            frm_btn, text="Doku_Anwender", command=self._open_user_doc
         ).pack(side="left", padx=(0, 6))
 
         ttk.Button(
-            frm_btn, text="Anwender-Doku", command=self._open_user_doc
-        ).pack(side="left", padx=(0, 6))
-
-        ttk.Button(
-            frm_btn, text="Technik-Doku", command=self._open_tech_doc
+            frm_btn, text="Doku_Technik", command=self._open_tech_doc
         ).pack(side="left", padx=(0, 6))
 
         self._run_btn = tk.Button(
@@ -235,6 +234,14 @@ class App(tk.Tk):
             self._csv_var.set(os.path.abspath(path))
             self._load_csv()
 
+    def _on_csv_entry_focus_out(self, _event=None):
+        """Lädt CSV still im Hintergrund, wenn das Feld verlassen wird."""
+        self._load_csv(silent=True)
+
+    def _on_csv_entry_return(self, _event=None):
+        """Lädt CSV explizit bei Enter im CSV-Eingabefeld."""
+        self._load_csv(silent=False)
+
     def _browse_output(self):
         path = filedialog.askdirectory(
             title="Ausgabe-Ordner auswählen",
@@ -272,6 +279,7 @@ class App(tk.Tk):
         csv_path = self._resolve_path(csv_input)
         try:
             self._participants = read_participants(csv_path)
+            self._loaded_csv_path = csv_path
             self._refresh_tree()
             self._run_btn.configure(state="normal")
             self._status_var.set(
@@ -279,6 +287,7 @@ class App(tk.Tk):
             )
         except Exception as e:
             self._participants = []
+            self._loaded_csv_path = None
             self._refresh_tree()
             self._run_btn.configure(state="disabled")
             if not silent:
@@ -305,6 +314,10 @@ class App(tk.Tk):
     # ------------------------------------------------------------------
 
     def _start_run(self):
+        current_csv_path = self._resolve_path(self._csv_var.get())
+        if current_csv_path and current_csv_path != self._loaded_csv_path:
+            self._load_csv(silent=False)
+
         if not self._participants:
             messagebox.showwarning("Keine Daten", "Bitte zuerst eine CSV-Datei laden.")
             return

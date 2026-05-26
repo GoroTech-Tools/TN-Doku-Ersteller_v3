@@ -7,7 +7,7 @@ für neue Ausbildungsgruppen der Bildungseinrichtung.
 
 ## Version
 
-3.0.3 (Build: 26.05.2026)
+3.0.4 (Build: 26.05.2026)
 
 ## Funktionen
 
@@ -118,6 +118,12 @@ Siehe [docs/CHANGELOG.md](docs/CHANGELOG.md) für die vollständige Versionsgesc
 - **Issues & Feedback:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
 - **Lizenz:** [LICENSE](docs/LICENSE)
 - **Dokumentation:** [docs/](docs/)
+
+
+
+
+
+
 
 
 

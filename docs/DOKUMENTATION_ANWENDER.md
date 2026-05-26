@@ -20,7 +20,7 @@
 
 ### Schritt 1: Archiv entpacken
 
-1. Die Datei `TN-Doku-Ersteller-Portable_3.0.3.zip` mit dem Windows-Explorer entpacken
+1. Die Datei `TN-Doku-Ersteller-Portable_3.0.4.zip` mit dem Windows-Explorer entpacken
 2. Der entpackte Ordner enthält die Anwendung und alle nötigen Dateien
 
 ### Schritt 2: Anwendung starten

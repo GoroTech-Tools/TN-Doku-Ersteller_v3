@@ -149,7 +149,7 @@ Ermittelt Basisverzeichnis:
 
 ```python
 BUILD_INFO = {
-    'version': '3.0.3',
+    'version': '3.0.4',
     'build_date': '2026-05-18T20:30:00',
     'python_version': '3.13.7',
     'platform': 'win32',
@@ -322,7 +322,7 @@ Beispiel:
 ```
 fix: Anwesenheitsliste – Datum-Tab korrigiert, leere Zeile entfernt, 1-Seiten-Fit
 feat: CSV-Vorschau in der GUI hinzugefügt
-build: EXE v3.0.3 – Onefile-Release via src/build.ps1
+build: EXE v3.0.4 – Onefile-Release via src/build.ps1
 ```
 
 ---

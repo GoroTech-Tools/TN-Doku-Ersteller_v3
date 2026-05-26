@@ -14,6 +14,18 @@ _Keine Änderungen._
 
 ---
 
+## [3.0.4] – 2026-05-26
+
+### Changed (3.0.4)
+
+- Teilnehmer-Vorschau in der GUI auf maximal 8 sichtbare Einträge begrenzt; weitere Einträge bleiben per Scrollbar erreichbar.
+- Doku-Schaltflächen umbenannt zu `Doku_Anwender` und `Doku_Technik`.
+- Schaltfläche `CSV laden & Vorschau` entfernt; CSV wird bei Auswahl weiterhin direkt geladen.
+- CSV wird zusätzlich beim Verlassen des CSV-Feldes (still) sowie bei `Enter` im Feld geladen.
+- Vor dem Start der Verarbeitung wird eine geänderte CSV-Eingabe automatisch neu eingelesen.
+
+---
+
 ## [3.0.3] – 2026-05-26
 
 ### Added (3.0.3)
