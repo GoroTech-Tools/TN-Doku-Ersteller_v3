@@ -48,6 +48,62 @@ function Write-Host {
     }
 }
 
+function New-ReleaseNotesContent {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Version,
+        [Parameter(Mandatory = $true)]
+        [string]$ProjectDir,
+        [Parameter(Mandatory = $true)]
+        [string]$DistPath,
+        [string]$ZipName
+    )
+
+    $today = (Get-Date).ToString('yyyy-MM-dd')
+    $lines = [System.Collections.Generic.List[string]]::new()
+    $lines.Add("# Release Notes v$Version")
+    $lines.Add("")
+    $lines.Add("- Datum: $today")
+    $lines.Add("- Version: $Version")
+    $lines.Add("- Build-Ordner: $(Split-Path -Leaf $DistPath)")
+    if ($ZipName) {
+        $lines.Add("- ZIP-Archiv: $ZipName")
+    } else {
+        $lines.Add("- ZIP-Archiv: nicht erstellt (`-SkipZip)")
+    }
+    $lines.Add("")
+
+    $changelogPath = Join-Path $ProjectDir 'docs\CHANGELOG.md'
+    if (Test-Path $changelogPath) {
+        try {
+            $changelog = Get-Content $changelogPath -Raw -Encoding UTF8
+            $escapedVersion = [regex]::Escape($Version)
+            $pattern = "(?ms)^## \[$escapedVersion\].*?(?=^## \[|\z)"
+            $match = [regex]::Match($changelog, $pattern)
+            if ($match.Success) {
+                $lines.Add("## Änderungen")
+                $lines.Add("")
+                foreach ($line in ($match.Value.Trim() -split "`r?`n")) {
+                    $lines.Add($line)
+                }
+                $lines.Add("")
+                return ($lines -join "`r`n")
+            }
+        } catch {
+            # Fallback unten
+        }
+    }
+
+    $lines.Add("## Änderungen")
+    $lines.Add("")
+    $lines.Add("- Build erfolgreich erstellt.")
+    $lines.Add("- Details siehe Changelog unter docs/CHANGELOG.md.")
+    $lines.Add("")
+
+    return ($lines -join "`r`n")
+}
+
 # ---------------------------------------------------------------------------
 # Schritt 0: Versionsnummer in build_info.py erhöhen
 # ---------------------------------------------------------------------------
@@ -241,13 +297,16 @@ foreach ($doc in $requiredDocs) {
 Write-Host "  docs/ validiert." -ForegroundColor DarkGray
 
 # ---------------------------------------------------------------------------
-# Schritt 3: ZIP erstellen
+# Schritt 3: ZIP erstellen (+ Schritt 4: Release Notes erzeugen)
 # ---------------------------------------------------------------------------
+$releaseDir = Join-Path $projectDir 'release'
+New-Item -ItemType Directory -Path $releaseDir -Force | Out-Null
+
+$zipName = $null
+$zipPath = $null
+
 if (-not $SkipZip) {
     Write-Host "`n3. ZIP-Archiv erstellen ..." -ForegroundColor Yellow
-    $releaseDir = Join-Path $projectDir 'release'
-    New-Item -ItemType Directory -Path $releaseDir -Force | Out-Null
-
     $zipName = "TN-Doku-Ersteller-Portable_$newVersion.zip"
     $zipPath = Join-Path $releaseDir $zipName
 
@@ -263,6 +322,13 @@ if (-not $SkipZip) {
         exit 1
     }
 }
+
+Write-Host "`n4. Release Notes erzeugen ..." -ForegroundColor Yellow
+$releaseNotesName = "RELEASE_NOTES_v$newVersion.md"
+$releaseNotesPath = Join-Path $releaseDir $releaseNotesName
+$releaseNotesContent = New-ReleaseNotesContent -Version $newVersion -ProjectDir $projectDir -DistPath $distPath -ZipName $zipName
+Set-Content -Path $releaseNotesPath -Value $releaseNotesContent -Encoding UTF8
+Write-Host "Release Notes: $releaseNotesName" -ForegroundColor Green
 
 # ---------------------------------------------------------------------------
 # Zusammenfassung
