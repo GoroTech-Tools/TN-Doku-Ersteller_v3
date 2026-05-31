@@ -18,6 +18,28 @@ Die Teilnehmer-Ablagesysteme gelten für die kaufmännische Qualifizierung von P
 
 ---
 
+## Ablauf als Grafik
+
+```mermaid
+flowchart TD
+   A([ZIP entpacken]) --> B[TN-Doku-Ersteller.exe starten]
+   B --> C[CSV + Ablagesystem prüfen]
+   C --> D[Dokumentation erstellen]
+   D --> E[Verarbeitung (5 Schritte)]
+   E --> F[[Jahrgang XXXX im output]]
+   E --> G[[Anwesenheitsliste KFL XXXX.docx]]
+
+   classDef start fill:#e8f0fe,stroke:#1a73e8,color:#0b3d91;
+   classDef process fill:#f3f4f6,stroke:#6b7280,color:#111827;
+   classDef result fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+   class A start;
+   class B,C,D,E process;
+   class F,G result;
+```
+
+---
+
 ## Installation & Start
 
 ### Schritt 1: Archiv entpacken
@@ -133,6 +155,28 @@ Nach erfolgreichem Ablauf entsteht folgende Struktur:
    ├── Schmidt, Maria - KBM/
    │   └── (gleiche Struktur)
    └── … (weitere Teilnehmer)
+```
+
+### Struktur-Überblick als Grafik
+
+```mermaid
+flowchart TD
+   O([output]) --> A[[Anwesenheitsliste KFL 2601.docx]]
+   O --> J[Jahrgang 2601]
+   J --> T1[Müller, Klaus - KBM]
+   J --> T2[Schmidt, Maria - KBM]
+   T1 --> L1[LEK-Ergebnisse]
+   T1 --> B1[Berichte Praxisphase]
+   T1 --> E1[Ergebnisse Lernsituationen]
+   L1 --> X1[[LEK- und ICDL-Ergebnisse Müller, Klaus - KBM.xlsm]]
+
+   classDef start fill:#e8f0fe,stroke:#1a73e8,color:#0b3d91;
+   classDef process fill:#f3f4f6,stroke:#6b7280,color:#111827;
+   classDef result fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+   class O start;
+   class J,T1,T2,L1,B1,E1 process;
+   class A,X1 result;
 ```
 
 ---

@@ -1,0 +1,16 @@
+flowchart TD
+    GUI[src/main.py\nTkinter GUI] --> CORE[src/core.py\nPipeline-Orchestrierung]
+    GUI --> CSV[src/csv_reader.py\nCSV-Import]
+    CORE --> FS[(Dateisystem\noutput/data)]
+    CORE --> XLSM[openpyxl\nExcel/XLSM]
+    CORE --> DOCX[python-docx\nWord/DOCX]
+    BUILD[src/build.ps1] --> SPEC[src/TN-Doku-Ersteller.spec]
+    SPEC --> EXE[[TN-Doku-Ersteller.exe]]
+
+    classDef source fill:#e8f0fe,stroke:#1a73e8,color:#0b3d91;
+    classDef process fill:#f3f4f6,stroke:#6b7280,color:#111827;
+    classDef result fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+    class GUI,CSV,BUILD source;
+    class CORE,FS,XLSM,DOCX,SPEC process;
+    class EXE result;

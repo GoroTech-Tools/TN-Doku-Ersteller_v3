@@ -1,0 +1,19 @@
+flowchart TD
+    CSVF([Teilnehmer_Beginn.CSV]) --> R[csv_reader.read_participants]
+    R --> P[participants Liste]
+    P --> RUN[core.run_all]
+    RUN --> S1[1. Ordnerstruktur]
+    RUN --> S2[2. Ablagestruktur]
+    RUN --> S3[3. Excel-Dateien umbenennen]
+    RUN --> S4[4. Excel-Blätter umbenennen]
+    RUN --> S5[5. Anwesenheitsliste erstellen]
+    S1 --> OUT[[output/Jahrgang XXXX]]
+    S5 --> DOC[[output/Anwesenheitsliste KFL XXXX.docx]]
+
+    classDef source fill:#e8f0fe,stroke:#1a73e8,color:#0b3d91;
+    classDef process fill:#f3f4f6,stroke:#6b7280,color:#111827;
+    classDef result fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+    class CSVF source;
+    class R,P,RUN,S1,S2,S3,S4,S5 process;
+    class OUT,DOC result;

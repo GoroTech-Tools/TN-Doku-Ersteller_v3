@@ -1,0 +1,15 @@
+flowchart TD
+    A([ZIP entpacken]) --> B[TN-Doku-Ersteller.exe starten]
+    B --> C[CSV + Ablagesystem prüfen]
+    C --> D[Dokumentation erstellen]
+    D --> E[Verarbeitung in 5 Schritten]
+    E --> F[[Jahrgang XXXX im output]]
+    E --> G[[Anwesenheitsliste KFL XXXX.docx]]
+
+    classDef start fill:#e8f0fe,stroke:#1a73e8,color:#0b3d91;
+    classDef process fill:#f3f4f6,stroke:#6b7280,color:#111827;
+    classDef result fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+    class A start;
+    class B,C,D,E process;
+    class F,G result;

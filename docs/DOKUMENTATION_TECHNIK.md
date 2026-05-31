@@ -12,6 +12,29 @@ Die Teilnehmer-Ablagesysteme gelten für die kaufmännische Qualifizierung von P
 
 ## Architektur
 
+### Systemübersicht (Grafik)
+
+```mermaid
+flowchart TD
+    GUI[src/main.py\nTkinter GUI] --> CORE[src/core.py\nPipeline-Orchestrierung]
+    GUI --> CSV[src/csv_reader.py\nCSV-Import]
+    CORE --> FS[(Dateisystem\noutput/data)]
+    CORE --> XLSM[openpyxl\nExcel/XLSM]
+    CORE --> DOCX[python-docx\nWord/DOCX]
+    BUILD[src/build.ps1] --> SPEC[src/TN-Doku-Ersteller.spec]
+    SPEC --> EXE[[TN-Doku-Ersteller.exe]]
+
+    classDef source fill:#e8f0fe,stroke:#1a73e8,color:#0b3d91;
+    classDef process fill:#f3f4f6,stroke:#6b7280,color:#111827;
+    classDef result fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+    class GUI,CSV,BUILD source;
+    class CORE,FS,XLSM,DOCX,SPEC process;
+    class EXE result;
+```
+
+---
+
 ### Komponenten
 
 | Modul | Datei | Zweck |
@@ -213,6 +236,32 @@ PyInstaller-Konfiguration.
 
 ## Datenfluss
 
+### Datenfluss als Grafik
+
+```mermaid
+flowchart TD
+    CSVF([Teilnehmer_Beginn.CSV]) --> R[csv_reader.read_participants]
+    R --> P[participants[]]
+    P --> RUN[core.run_all]
+    RUN --> S1[1. Ordnerstruktur]
+    RUN --> S2[2. Ablagestruktur]
+    RUN --> S3[3. Excel-Dateien umbenennen]
+    RUN --> S4[4. Excel-Blätter umbenennen]
+    RUN --> S5[5. Anwesenheitsliste erstellen]
+    S1 --> OUT[[output/Jahrgang XXXX]]
+    S5 --> DOC[[output/Anwesenheitsliste KFL XXXX.docx]]
+
+    classDef source fill:#e8f0fe,stroke:#1a73e8,color:#0b3d91;
+    classDef process fill:#f3f4f6,stroke:#6b7280,color:#111827;
+    classDef result fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+    class CSVF source;
+    class R,P,RUN,S1,S2,S3,S4,S5 process;
+    class OUT,DOC result;
+```
+
+---
+
 ```
 CSV-Datei
 (Teilnehmer_Beginn.CSV)
@@ -256,6 +305,27 @@ output/
     - Onefile-EXE (Build-Output): `dist/TN-Doku-Ersteller.exe`
     - Verteilungsordner: `dist/TN-Doku-Ersteller-v{version}/`
     - ZIP: `release/TN-Doku-Ersteller_{version}.zip`
+
+### Build/Release-Pipeline (Grafik)
+
+```mermaid
+flowchart TD
+    A([src/build_info.py lesen]) --> B[Version prüfen/setzen]
+    B --> C[PyInstaller via spec]
+    C --> D[[dist/TN-Doku-Ersteller.exe]]
+    D --> E[dist/TN-Doku-Ersteller-v{version}]
+    E --> F[docs + data + README kopieren]
+    F --> G[[release/TN-Doku-Ersteller_{version}.zip]]
+    G --> H[[release/RELEASE_NOTES_v{version}.md]]
+
+    classDef source fill:#e8f0fe,stroke:#1a73e8,color:#0b3d91;
+    classDef process fill:#f3f4f6,stroke:#6b7280,color:#111827;
+    classDef result fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+    class A source;
+    class B,C,E,F process;
+    class D,G,H result;
+```
 
 ---
 

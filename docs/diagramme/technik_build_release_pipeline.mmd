@@ -1,0 +1,16 @@
+flowchart TD
+    A([src/build_info.py lesen]) --> B[Version prüfen/setzen]
+    B --> C[PyInstaller via spec]
+    C --> D[[dist/TN-Doku-Ersteller.exe]]
+    D --> E[dist/TN-Doku-Ersteller-vX.Y.Z]
+    E --> F[docs + data + README kopieren]
+    F --> G[[release/TN-Doku-Ersteller_X.Y.Z.zip]]
+    G --> H[[release/RELEASE_NOTES_vX.Y.Z.md]]
+
+    classDef source fill:#e8f0fe,stroke:#1a73e8,color:#0b3d91;
+    classDef process fill:#f3f4f6,stroke:#6b7280,color:#111827;
+    classDef result fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+    class A source;
+    class B,C,E,F process;
+    class D,G,H result;

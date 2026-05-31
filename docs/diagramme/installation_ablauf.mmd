@@ -1,0 +1,15 @@
+flowchart TD
+    A([ZIP herunterladen]) --> B[Archiv entpacken]
+    B --> C[TN-Doku-Ersteller.exe starten]
+    C --> D[data/Ablagesystem prüfen]
+    D --> E[data/Teilnehmer_Beginn.CSV vorbereiten]
+    E --> F[Dokumentation erstellen]
+    F --> G[[Ergebnis im output prüfen]]
+
+    classDef start fill:#e8f0fe,stroke:#1a73e8,color:#0b3d91;
+    classDef process fill:#f3f4f6,stroke:#6b7280,color:#111827;
+    classDef result fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+    class A start;
+    class B,C,D,E,F process;
+    class G result;
