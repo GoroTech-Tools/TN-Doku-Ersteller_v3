@@ -300,10 +300,26 @@ $pyInstallerLog = Join-Path $projectDir 'build\last-pyinstaller.log'
 New-Item -ItemType Directory -Path (Split-Path $pyInstallerLog -Parent) -Force | Out-Null
 
 $specPath = Join-Path $PSScriptRoot 'TN-Doku-Ersteller.spec'
-if ($Quiet) {
-    & py -m PyInstaller $specPath --noconfirm *> $pyInstallerLog
+$pythonLauncher = $null
+$pythonCmd = Get-Command python -ErrorAction SilentlyContinue
+if ($pythonCmd) {
+    $pythonLauncher = $pythonCmd.Source
 } else {
-    & py -m PyInstaller $specPath --noconfirm
+    $pyCmd = Get-Command py -ErrorAction SilentlyContinue
+    if ($pyCmd) {
+        $pythonLauncher = $pyCmd.Source
+    }
+}
+
+if (-not $pythonLauncher) {
+    Write-Host "Weder 'python' noch 'py' wurde im PATH gefunden." -ForegroundColor Red
+    exit 1
+}
+
+if ($Quiet) {
+    & $pythonLauncher -m PyInstaller $specPath --noconfirm *> $pyInstallerLog
+} else {
+    & $pythonLauncher -m PyInstaller $specPath --noconfirm
 }
 
 if ($LASTEXITCODE -ne 0) {
