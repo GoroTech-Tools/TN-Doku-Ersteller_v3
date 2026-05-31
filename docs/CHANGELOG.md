@@ -1,6 +1,5 @@
+# Changelog – TN-Doku-Ersteller
 <!-- markdownlint-disable MD012 -->
-
-# Changelog – TN-Doku-Ersteller-Portable
 
 Alle bemerkenswerten Änderungen dieses Projekts werden in dieser Datei dokumentiert.
 
@@ -14,12 +13,23 @@ _Keine Änderungen._
 
 ---
 
+## [1.0.0] – 2026-05-31
+
+### Changed (1.0.0)
+
+- Projektbezeichnung in README und Dokumentation auf `TN-Doku-Ersteller` vereinheitlicht.
+- Kontext präzisiert: Die Teilnehmer-Ablagesysteme gelten für die kaufmännische Qualifizierung von Personen im BFW Weser-Ems.
+- Build-/Release-Artefakte auf `TN-Doku-Ersteller` umgestellt (EXE, ZIP, Spec-Datei und Workflow-Pfade).
+- Release-Version auf `1.0.0` gesetzt und Dokumentationsbeispiele aktualisiert.
+
+---
+
 ## [3.0.6] – 2026-05-26
 
 ### Changed (3.0.6)
 
 - Versionsreferenzen in der Dokumentation auf `3.0.6` aktualisiert (`DOKUMENTATION_ANWENDER`, `DOKUMENTATION_TECHNIK`, `INSTALLATION`).
-- Build-/Release-Lauf für `v3.0.6` mit neuem ZIP-Artefakt (`TN-Doku-Ersteller-Portable_3.0.6.zip`) durchgeführt.
+- Build-/Release-Lauf für `v3.0.6` mit neuem ZIP-Artefakt (`TN-Doku-Ersteller_3.0.6.zip`) durchgeführt.
 
 ### Fixed (3.0.6)
 
@@ -102,8 +112,8 @@ _Keine Änderungen._
 
 ### Changed (3.0.0)
 
-- Build-System auf **PyInstaller Onefile** umgestellt: Verteilung erfolgt jetzt mit einer einzelnen `TN-Doku-Ersteller-Portable.exe` im Paketordner.
-- `TN-Doku-Ersteller-Portable.spec` auf Onefile-Layout angepasst (kein `COLLECT`-/`_internal`-Ordner mehr im Release-Verzeichnis).
+- Build-System auf **PyInstaller Onefile** umgestellt: Verteilung erfolgt jetzt mit einer einzelnen `TN-Doku-Ersteller.exe` im Paketordner.
+- `TN-Doku-Ersteller.spec` auf Onefile-Layout angepasst (kein `COLLECT`-/`_internal`-Ordner mehr im Release-Verzeichnis).
 - `build.ps1` für Onefile-Ausgabe überarbeitet (Onefile-EXE wird erzeugt und anschließend in den versionierten Distributionsordner übernommen).
 
 ### Docs (3.0.0)
@@ -144,7 +154,7 @@ _Keine Änderungen._
 ### Added (2.0.1)
 
 - App-Icon (`app_icon.ico`) in EXE-Icon und GUI-Titelleiste integriert.
-- `TN-Doku-Ersteller-Portable.spec` um Icon-Pfad erweitert.
+- `TN-Doku-Ersteller.spec` um Icon-Pfad erweitert.
 
 ---
 
@@ -228,7 +238,7 @@ src/
 
 Unterstützungsdateien:
 ├── build.ps1           # Build-Automatisierung
-├── TN-Doku-Ersteller-Portable.spec  # PyInstaller-Config
+├── TN-Doku-Ersteller.spec  # PyInstaller-Config
 ├── setup.ps1           # Venv & Dependencies Setup
 ├── requirements.txt    # Python-Pakete
 ├── README.md           # Schnelleinstieg
@@ -291,7 +301,7 @@ Unterstützungsdateien:
 
 ## Versionierungsschema
 
-**TN-Doku-Ersteller-Portable** folgt [Semantic Versioning](https://semver.org/):
+**TN-Doku-Ersteller** folgt [Semantic Versioning](https://semver.org/):
 
 - **MAJOR (X.0.0):** Breaking Changes, komplette Neuentwicklung
 - **MINOR (0.Y.0):** Neue Features (rückwärts-kompatibel)
@@ -358,8 +368,8 @@ Beispiele:
 ## Support & Lizenz
 
 - **Lizenz:** Siehe [LICENSE](./LICENSE)
-- **Repository:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable)
-- **Issues:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
+- **Repository:** [https://github.com/TomGorontzy/TN-Doku-Ersteller](https://github.com/TomGorontzy/TN-Doku-Ersteller)
+- **Issues:** [https://github.com/TomGorontzy/TN-Doku-Ersteller/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller/issues)
 - **Dokumentation:** Siehe `docs/`-Ordner
 
 ---

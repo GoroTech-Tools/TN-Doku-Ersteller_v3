@@ -1,10 +1,12 @@
 <!-- markdownlint-disable MD009 MD012 MD022 MD026 MD031 MD032 MD036 MD040 MD060 -->
 
-# Anwenderdokumentation – TN-Doku-Ersteller-Portable
+# Anwenderdokumentation – TN-Doku-Ersteller
 
 ## Überblick
 
-**TN-Doku-Ersteller-Portable** ist ein Windows-Tool zur automatischen Erstellung von standardisierten Teilnehmer-Ablagesystemen für neue Ausbildungsgruppen. Das Tool erstellt automatisch:
+**TN-Doku-Ersteller** ist ein Windows-Tool zur automatischen Erstellung von standardisierten Teilnehmer-Ablagesystemen für neue Ausbildungsgruppen. Das Tool erstellt automatisch:
+
+Die Teilnehmer-Ablagesysteme gelten für die kaufmännische Qualifizierung von Personen im BFW Weser-Ems.
 
 - Ordnerstrukturen pro Teilnehmer
 - Vordefinierte Unterordner-Strukturen
@@ -20,13 +22,13 @@
 
 ### Schritt 1: Archiv entpacken
 
-1. Die Datei `TN-Doku-Ersteller-Portable_3.0.6.zip` mit dem Windows-Explorer entpacken
+1. Die Datei `TN-Doku-Ersteller_1.0.0.zip` mit dem Windows-Explorer entpacken
 2. Der entpackte Ordner enthält die Anwendung und alle nötigen Dateien
 
 ### Schritt 2: Anwendung starten
 
-- **Windows Explorer** → Ordner öffnen → Doppelklick auf `TN-Doku-Ersteller-Portable.exe`
-- Oder: **Kommandozeile/PowerShell** → `cd Pfad/zum/Ordner` → `.\TN-Doku-Ersteller-Portable.exe`
+- **Windows Explorer** → Ordner öffnen → Doppelklick auf `TN-Doku-Ersteller.exe`
+- Oder: **Kommandozeile/PowerShell** → `cd Pfad/zum/Ordner` → `.\TN-Doku-Ersteller.exe`
 
 Die GUI öffnet sich – ein Fenster mit Eingabefeldern und einem Log-Bereich.
 
@@ -75,8 +77,8 @@ Bauer, Tim;BFK 2601;BFK
 ### 3. Anwendung nutzen
 
 #### Schritt A: GUI starten
-- `TN-Doku-Ersteller-Portable.exe` ausführen
-- Das Fenster „TN-Doku-Ersteller-Portable" öffnet sich
+- `TN-Doku-Ersteller.exe` ausführen
+- Das Fenster „TN-Doku-Ersteller" öffnet sich
 
 #### Schritt B: Eingabefelder prüfen
 

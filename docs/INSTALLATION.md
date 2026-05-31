@@ -1,6 +1,8 @@
 <!-- markdownlint-disable MD009 MD012 MD022 MD026 MD031 MD032 MD036 MD040 MD060 -->
 
-# Installationsanleitung – TN-Doku-Ersteller-Portable
+# Installationsanleitung – TN-Doku-Ersteller
+
+Die Teilnehmer-Ablagesysteme gelten für die kaufmännische Qualifizierung von Personen im BFW Weser-Ems.
 
 ## Systemvoraussetzungen
 
@@ -19,16 +21,16 @@
 ### Option 1: Portable EXE (empfohlen)
 
 **Schritt 1: Archiv herunterladen**
-- Die Datei `TN-Doku-Ersteller-Portable_3.0.6.zip` herunterladen
+- Die Datei `TN-Doku-Ersteller_1.0.0.zip` herunterladen
 
 **Schritt 2: Entpacken**
 1. **Rechtsklick** auf die ZIP-Datei
 2. **„Alle extrahieren" oder „Extract All"** auswählen
-3. Ein neuer Ordner `TN-Doku-Ersteller-Portable-v3.0.6` entsteht
+3. Ein neuer Ordner `TN-Doku-Ersteller-v1.0.0` entsteht
 
 **Schritt 3: Starten**
 1. Den entpackten Ordner öffnen
-2. **Doppelklick** auf `TN-Doku-Ersteller-Portable.exe`
+2. **Doppelklick** auf `TN-Doku-Ersteller.exe`
 3. Das Fenster öffnet sich – fertig!
 
 **Wichtig:**
@@ -42,8 +44,8 @@
 
 ```powershell
 # Repository klonen
-git clone https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable.git
-cd TN-Doku-Ersteller-Portable
+git clone https://github.com/TomGorontzy/TN-Doku-Ersteller.git
+cd TN-Doku-Ersteller
 
 # Virtuelle Umgebung und Packages installieren
 .\src\setup.ps1
@@ -55,7 +57,7 @@ cd TN-Doku-Ersteller-Portable
 .\src\build.ps1
 ```
 
-Danach liegt die EXE in: `dist/TN-Doku-Ersteller-Portable-v{version}/TN-Doku-Ersteller-Portable.exe`
+Danach liegt die EXE in: `dist/TN-Doku-Ersteller-v{version}/TN-Doku-Ersteller.exe`
 
 ---
 
@@ -154,8 +156,8 @@ Der Ausgabe-Ordner wird automatisch erkannt oder kann manuell ausgewählt werden
 ### Schritt 1: EXE starten
 
 ```
-cd C:\Pfad\zum\TN-Doku-Ersteller-Portable
-TN-Doku-Ersteller-Portable.exe
+cd C:\Pfad\zum\TN-Doku-Ersteller
+TN-Doku-Ersteller.exe
 ```
 
 Das GUI-Fenster öffnet sich.
@@ -261,7 +263,7 @@ Falls alles OK → **Fertig!**
 Die Anwendung ist **portabel** – keine echte Installation nötig!
 
 **Zum Löschen:**
-- Den Ordner `TN-Doku-Ersteller-Portable-v3.0.6` einfach **löschen**
+- Den Ordner `TN-Doku-Ersteller-v1.0.0` einfach **löschen**
 - Keine Dateien in Windows-Registrierung oder `AppData` vorhanden
 - Fertig!
 

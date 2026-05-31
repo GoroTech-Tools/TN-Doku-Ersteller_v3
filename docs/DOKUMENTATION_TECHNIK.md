@@ -1,10 +1,12 @@
 <!-- markdownlint-disable MD009 MD012 MD022 MD026 MD031 MD032 MD036 MD040 MD060 -->
 
-# Technische Dokumentation – TN-Doku-Ersteller-Portable
+# Technische Dokumentation – TN-Doku-Ersteller
 
 ## Überblick
 
-TN-Doku-Ersteller-Portable ist eine eigenständige Windows-Anwendung (EXE), die mit Python 3.x, Tkinter und spezialisierten Bibliotheken für Office-Dateien gebaut wird. Die Anwendung folgt einer **5-Schritte-Pipeline** zur Teilnehmer-Verwaltung.
+TN-Doku-Ersteller ist eine eigenständige Windows-Anwendung (EXE), die mit Python 3.x, Tkinter und spezialisierten Bibliotheken für Office-Dateien gebaut wird. Die Anwendung folgt einer **5-Schritte-Pipeline** zur Teilnehmer-Verwaltung.
+
+Die Teilnehmer-Ablagesysteme gelten für die kaufmännische Qualifizierung von Personen im BFW Weser-Ems.
 
 ---
 
@@ -149,7 +151,7 @@ Ermittelt Basisverzeichnis:
 
 ```python
 BUILD_INFO = {
-    'version': '3.0.6',
+    'version': '1.0.0',
     'build_date': '2026-05-18T20:30:00',
     'python_version': '3.13.7',
     'platform': 'win32',
@@ -175,7 +177,7 @@ PowerShell-Skript für vollautomatisches Build & Release.
    - `README.md` → `dist/{folder}/`
    - `LICENSE` → `dist/{folder}/`
 4. **ZIP-Erstellung:** Nutzt .NET `ZipFile.CreateFromDirectory()`
-5. **Output:** `release/TN-Doku-Ersteller-Portable_{version}.zip`
+5. **Output:** `release/TN-Doku-Ersteller_{version}.zip`
 
 **Parameter:**
 
@@ -196,13 +198,13 @@ PowerShell-Skript für vollautomatisches Build & Release.
 
 ---
 
-### src/TN-Doku-Ersteller-Portable.spec
+### src/TN-Doku-Ersteller.spec
 
 PyInstaller-Konfiguration.
 
 **Key Settings:**
 - `onefile`: Einzelne EXE mit integrierten Abhängigkeiten
-- `name`: `TN-Doku-Ersteller-Portable`
+- `name`: `TN-Doku-Ersteller`
 - `console=False`: Keine Konsole (GUI-only)
 - `icon`: Logo (falls vorhanden)
 - `datas`: `src/build_info.py` eingebunden
@@ -240,9 +242,9 @@ output/
 
 ### Für Endbenutzer
 
-1. `release/TN-Doku-Ersteller-Portable_{version}.zip` herunterladen
+1. `release/TN-Doku-Ersteller_{version}.zip` herunterladen
 2. Entpacken
-3. `TN-Doku-Ersteller-Portable.exe` ausführen
+3. `TN-Doku-Ersteller.exe` ausführen
 4. **Kein Python, kein Setup nötig**
 
 ### Für Entwickler
@@ -251,9 +253,9 @@ output/
 2. `.\src\setup.ps1` ausführen (`.venv` + Packages installieren)
 3. `.\src\build.ps1` ausführen (EXE + ZIP erstellen)
 4. Dateien landen in:
-    - Onefile-EXE (Build-Output): `dist/TN-Doku-Ersteller-Portable.exe`
-    - Verteilungsordner: `dist/TN-Doku-Ersteller-Portable-v{version}/`
-    - ZIP: `release/TN-Doku-Ersteller-Portable_{version}.zip`
+    - Onefile-EXE (Build-Output): `dist/TN-Doku-Ersteller.exe`
+    - Verteilungsordner: `dist/TN-Doku-Ersteller-v{version}/`
+    - ZIP: `release/TN-Doku-Ersteller_{version}.zip`
 
 ---
 

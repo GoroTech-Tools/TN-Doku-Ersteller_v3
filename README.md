@@ -1,13 +1,15 @@
 <!-- markdownlint-disable MD012 -->
 
-# TN-Doku-Ersteller-Portable
+# TN-Doku-Ersteller
 
 Portables Windows-Tool zur automatischen Erstellung von Teilnehmer-Ablagesystemen
 für neue Ausbildungsgruppen der Bildungseinrichtung.
 
+Die Teilnehmer-Ablagesysteme gelten für die kaufmännische Qualifizierung von Personen im BFW Weser-Ems.
+
 ## Version
 
-3.0.5 (Build: 26.05.2026)
+1.0.0 (Build: 31.05.2026)
 
 ## Funktionen
 
@@ -31,7 +33,7 @@ für neue Ausbildungsgruppen der Bildungseinrichtung.
 1. ZIP-Archiv entpacken.
 2. Ordner `data/Ablagesystem` mit den aktuellen Vorlagen befüllen (sofern nicht bereits enthalten).
 3. `data/Teilnehmer_Beginn.CSV` mit den Teilnehmerdaten der neuen Gruppe befüllen.
-4. `TN-Doku-Ersteller-Portable.exe` starten.
+4. `TN-Doku-Ersteller.exe` starten.
 5. CSV-Datei und Ausgabe-Ordner prüfen (werden automatisch vorausgefüllt).
 6. Auf **„Dokumentation erstellen"** klicken.
 7. Ergebnisse im Ordner `output` prüfen (`Jahrgang XXXX` + `Anwesenheitsliste KFL XXXX.docx`).
@@ -64,7 +66,7 @@ Umfangreiche Dokumentation im Ordner `docs/`:
 ## Projektstruktur (Quellcode)
 
 ```text
-TN-Doku-Ersteller-Portable/
+TN-Doku-Ersteller/
 ├── src/
 │   ├── main.py
 │   ├── core.py
@@ -83,7 +85,7 @@ TN-Doku-Ersteller-Portable/
 ├── build.ps1
 ├── setup.ps1
 └── src/
-  ├── TN-Doku-Ersteller-Portable.spec
+  ├── TN-Doku-Ersteller.spec
   ├── build.ps1
   ├── setup.ps1
   └── requirements.txt
@@ -114,7 +116,7 @@ Siehe [docs/CHANGELOG.md](docs/CHANGELOG.md) für die vollständige Versionsgesc
 
 ## Support & Links
 
-- **GitHub Repository:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable)
-- **Issues & Feedback:** [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
+- **GitHub Repository:** [https://github.com/TomGorontzy/TN-Doku-Ersteller](https://github.com/TomGorontzy/TN-Doku-Ersteller)
+- **Issues & Feedback:** [https://github.com/TomGorontzy/TN-Doku-Ersteller/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller/issues)
 - **Lizenz:** [LICENSE](docs/LICENSE)
 - **Dokumentation:** [docs/](docs/)

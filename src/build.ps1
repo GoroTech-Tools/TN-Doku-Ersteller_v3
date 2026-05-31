@@ -1,4 +1,4 @@
-# Build-Skript für TN-Doku-Ersteller-Portable (primär in src)
+# Build-Skript für TN-Doku-Ersteller (primär in src)
 # Erstellt EXE via PyInstaller und packt alles als ZIP ins release/-Verzeichnis.
 
 param(
@@ -16,7 +16,7 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
 $projectDir = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 
 function Show-Usage {
-    Microsoft.PowerShell.Utility\Write-Host "TN-Doku-Ersteller-Portable Build-Skript - Optionen:" -ForegroundColor DarkCyan
+    Microsoft.PowerShell.Utility\Write-Host "TN-Doku-Ersteller Build-Skript - Optionen:" -ForegroundColor DarkCyan
     Microsoft.PowerShell.Utility\Write-Host "  -Help          : Nur diese Hilfe anzeigen und beenden" -ForegroundColor DarkGray
     Microsoft.PowerShell.Utility\Write-Host "  -NoVersionBump : Versionsnummer nicht erhöhen" -ForegroundColor DarkGray
     Microsoft.PowerShell.Utility\Write-Host "  -SkipZip       : ZIP-Erstellung überspringen" -ForegroundColor DarkGray
@@ -48,7 +48,7 @@ function Write-Host {
     }
 }
 
-function Normalize-MarkdownContent {
+function ConvertTo-MarkdownContent {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
@@ -123,7 +123,7 @@ function Invoke-MarkdownCleanup {
     foreach ($file in $targetFiles) {
         try {
             $original = [IO.File]::ReadAllText($file, $enc)
-            $cleaned = Normalize-MarkdownContent -Content $original
+            $cleaned = ConvertTo-MarkdownContent -Content $original
             if ($original -ne $cleaned) {
                 [IO.File]::WriteAllText($file, $cleaned, $enc)
                 $updated++
@@ -265,15 +265,15 @@ if (Test-Path $buildInfoPath) {
 # Typische Markdown-Fehler vor dem Build bereinigen (u. a. MD009/MD012/EOF-Newline)
 Invoke-MarkdownCleanup -ProjectDir $projectDir
 
-Write-Host "`nTN-Doku-Ersteller-Portable Build-Prozess" -ForegroundColor Green
+Write-Host "`nTN-Doku-Ersteller Build-Prozess" -ForegroundColor Green
 Write-Host "=========================================" -ForegroundColor Green
 
 # ---------------------------------------------------------------------------
 # Schritt 1: PyInstaller Build
 # ---------------------------------------------------------------------------
-$folderName = "TN-Doku-Ersteller-Portable-v$newVersion"
+$folderName = "TN-Doku-Ersteller-v$newVersion"
 $distPath   = Join-Path $projectDir "dist\$folderName"
-$oneFileExePath = Join-Path $projectDir 'dist\TN-Doku-Ersteller-Portable.exe'
+$oneFileExePath = Join-Path $projectDir 'dist\TN-Doku-Ersteller.exe'
 
 # Alte Build-Artefakte ggf. entfernen
 if (Test-Path $distPath) {
@@ -299,7 +299,7 @@ Write-Host "`n1. PyInstaller Build ..." -ForegroundColor Yellow
 $pyInstallerLog = Join-Path $projectDir 'build\last-pyinstaller.log'
 New-Item -ItemType Directory -Path (Split-Path $pyInstallerLog -Parent) -Force | Out-Null
 
-$specPath = Join-Path $PSScriptRoot 'TN-Doku-Ersteller-Portable.spec'
+$specPath = Join-Path $PSScriptRoot 'TN-Doku-Ersteller.spec'
 if ($Quiet) {
     & py -m PyInstaller $specPath --noconfirm *> $pyInstallerLog
 } else {
@@ -321,7 +321,7 @@ if (-not (Test-Path $oneFileExePath)) {
 }
 
 New-Item -ItemType Directory -Path $distPath -Force | Out-Null
-Copy-Item -Path $oneFileExePath -Destination (Join-Path $distPath 'TN-Doku-Ersteller-Portable.exe') -Force
+Copy-Item -Path $oneFileExePath -Destination (Join-Path $distPath 'TN-Doku-Ersteller.exe') -Force
 
 Write-Host "  EXE erstellt in: $distPath" -ForegroundColor Green
 
@@ -398,7 +398,7 @@ $zipPath = $null
 
 if (-not $SkipZip) {
     Write-Host "`n3. ZIP-Archiv erstellen ..." -ForegroundColor Yellow
-    $zipName = "TN-Doku-Ersteller-Portable_$newVersion.zip"
+    $zipName = "TN-Doku-Ersteller_$newVersion.zip"
     $zipPath = Join-Path $releaseDir $zipName
 
     if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
@@ -418,7 +418,7 @@ Write-Host "`n4. Release Notes erzeugen ..." -ForegroundColor Yellow
 $releaseNotesName = "RELEASE_NOTES_v$newVersion.md"
 $releaseNotesPath = Join-Path $releaseDir $releaseNotesName
 $releaseNotesContent = New-ReleaseNotesContent -Version $newVersion -ProjectDir $projectDir -DistPath $distPath -ZipName $zipName
-$releaseNotesContent = Normalize-MarkdownContent -Content $releaseNotesContent
+$releaseNotesContent = ConvertTo-MarkdownContent -Content $releaseNotesContent
 $utf8NoBom = [Text.UTF8Encoding]::new($false)
 [IO.File]::WriteAllText($releaseNotesPath, $releaseNotesContent, $utf8NoBom)
 Write-Host "Release Notes: $releaseNotesName" -ForegroundColor Green
@@ -428,8 +428,8 @@ Write-Host "Release Notes: $releaseNotesName" -ForegroundColor Green
 # ---------------------------------------------------------------------------
 Write-Host "`nBuild erfolgreich abgeschlossen!" -ForegroundColor Green
 Write-Host "Ergebnis: $distPath" -ForegroundColor Cyan
-$exePath = Join-Path $distPath 'TN-Doku-Ersteller-Portable.exe'
+$exePath = Join-Path $distPath 'TN-Doku-Ersteller.exe'
 if (Test-Path $exePath) {
     $sizeMb = [math]::Round((Get-Item $exePath).Length / 1MB, 1)
-    Write-Host "EXE: TN-Doku-Ersteller-Portable.exe ($sizeMb MB)" -ForegroundColor Cyan
+    Write-Host "EXE: TN-Doku-Ersteller.exe ($sizeMb MB)" -ForegroundColor Cyan
 }

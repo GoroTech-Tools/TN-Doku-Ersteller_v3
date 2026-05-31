@@ -5,13 +5,16 @@
 ## Allgemeines
 
 ### F: Brauche ich Microsoft Office installiert?
-**A:** Nein! TN-Doku-Ersteller-Portable funktioniert auch ohne Office. Excel- und Word-Dateien werden direkt in Python bearbeitet.
+**A:** Nein! TN-Doku-Ersteller funktioniert auch ohne Office. Excel- und Word-Dateien werden direkt in Python bearbeitet.
 
 ### F: Läuft die Anwendung auf macOS oder Linux?
 **A:** Nein, momentan nur auf Windows (10/11, 64-bit). Ein Cross-Platform-Port ist geplant, aber nicht prioritär.
 
 ### F: Ist die Anwendung kostenlos?
-**A:** Ja, TN-Doku-Ersteller-Portable ist Open Source und kostenlos. Siehe [LICENSE](./LICENSE).
+**A:** Ja, TN-Doku-Ersteller ist Open Source und kostenlos. Siehe [LICENSE](./LICENSE).
+
+### F: Für welchen Einsatzbereich sind die Teilnehmer-Ablagesysteme gedacht?
+**A:** Die Teilnehmer-Ablagesysteme gelten für die kaufmännische Qualifizierung von Personen im BFW Weser-Ems.
 
 ### F: Kann ich die Anwendung weitergeben?
 **A:** Ja! Die ZIP-Datei kannst du ohne Probleme an andere Nutzer weitergeben. Sie funktioniert überall.
@@ -37,7 +40,7 @@
 **A:** Ja! Einfach den kompletten entpackten Ordner auf den USB-Stick kopieren. Sie läuft überall.
 
 ### F: Darf ich die Anwendung umbenennen?
-**A:** Ja, der Ordnername ist egal. Nur die EXE-Datei sollte `TN-Doku-Ersteller-Portable.exe` heißen.
+**A:** Ja, der Ordnername ist egal. Nur die EXE-Datei sollte `TN-Doku-Ersteller.exe` heißen.
 
 ### F: Kann ich die Anwendung in ein bestehendes Verzeichnis mit `data/Ablagesystem` entpacken?
 **A:** Ja! Falls `data/Ablagesystem` und `data/Teilnehmer_Beginn.CSV` bereits vorhanden sind, werden sie automatisch erkannt.
@@ -195,7 +198,7 @@ Alte und neue Version können nebeneinander existieren.
 
 ### F: Wo melde ich Fehler oder Bugs?
 **A:** 
-- GitHub Issues: [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
+- GitHub Issues: [https://github.com/TomGorontzy/TN-Doku-Ersteller/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller/issues)
 - Direkt per E-Mail an die Entwicklung
 
 ### F: Kann ich Feature-Requests machen?
@@ -212,7 +215,7 @@ Alte und neue Version können nebeneinander existieren.
 **A:** Nein. Nur das Log-Fenster zeigt den Fortschritt. Nach Schließen der Anwendung ist alles weg.
 
 ### F: Ist die Quelle offen?
-**A:** Ja! Der Code ist auf GitHub öffentlich verfügbar: [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable)
+**A:** Ja! Der Code ist auf GitHub öffentlich verfügbar: [https://github.com/TomGorontzy/TN-Doku-Ersteller](https://github.com/TomGorontzy/TN-Doku-Ersteller)
 
 ---
 
@@ -264,5 +267,5 @@ Bauer, Tim;IBA 2601;IBA           ← Gleicher Suffix: 2601
 **Fragen nicht beantwortet?**
 - Siehe [DOKUMENTATION_ANWENDER.md](DOKUMENTATION_ANWENDER.md)
 - Oder [DOKUMENTATION_TECHNIK.md](DOKUMENTATION_TECHNIK.md) (für Entwickler)
-- GitHub Issues: [https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller-Portable/issues)
+- GitHub Issues: [https://github.com/TomGorontzy/TN-Doku-Ersteller/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller/issues)
 - Entwicklung kontaktieren

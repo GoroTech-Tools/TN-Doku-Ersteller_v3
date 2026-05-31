@@ -12,6 +12,8 @@ permissions:
 jobs:
   build-and-release:
     runs-on: windows-latest
+    env:
+      VERSION: "0.0.0"
 
     steps:
       - name: Checkout
@@ -87,7 +89,7 @@ jobs:
         with:
           name: release-assets-v${{ env.VERSION }}
           path: |
-            release/TN-Doku-Ersteller-Portable_${{ env.VERSION }}.zip
+            release/TN-Doku-Ersteller_${{ env.VERSION }}.zip
 
       - name: Publish GitHub release
         if: startsWith(github.ref, 'refs/tags/')
@@ -96,4 +98,4 @@ jobs:
           tag_name: ${{ github.ref_name }}
           generate_release_notes: true
           files: |
-            release/TN-Doku-Ersteller-Portable_${{ env.VERSION }}.zip
+            release/TN-Doku-Ersteller_${{ env.VERSION }}.zip
