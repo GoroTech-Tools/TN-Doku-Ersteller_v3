@@ -198,7 +198,7 @@ Alte und neue Version können nebeneinander existieren.
 
 ### F: Wo melde ich Fehler oder Bugs?
 **A:** 
-- GitHub Issues: [https://github.com/TomGorontzy/TN-Doku-Ersteller/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller/issues)
+- GitHub Issues: [https://github.com/GoroTech-Tools/TN-Doku-Ersteller/issues](https://github.com/GoroTech-Tools/TN-Doku-Ersteller/issues)
 - Direkt per E-Mail an die Entwicklung
 
 ### F: Kann ich Feature-Requests machen?
@@ -215,7 +215,7 @@ Alte und neue Version können nebeneinander existieren.
 **A:** Nein. Nur das Log-Fenster zeigt den Fortschritt. Nach Schließen der Anwendung ist alles weg.
 
 ### F: Ist die Quelle offen?
-**A:** Ja! Der Code ist auf GitHub öffentlich verfügbar: [https://github.com/TomGorontzy/TN-Doku-Ersteller](https://github.com/TomGorontzy/TN-Doku-Ersteller)
+**A:** Ja! Der Code ist auf GitHub öffentlich verfügbar: [https://github.com/GoroTech-Tools/TN-Doku-Ersteller](https://github.com/GoroTech-Tools/TN-Doku-Ersteller)
 
 ---
 
@@ -267,5 +267,5 @@ Bauer, Tim;IBA 2601;IBA           ← Gleicher Suffix: 2601
 **Fragen nicht beantwortet?**
 - Siehe [DOKUMENTATION_ANWENDER.md](DOKUMENTATION_ANWENDER.md)
 - Oder [DOKUMENTATION_TECHNIK.md](DOKUMENTATION_TECHNIK.md) (für Entwickler)
-- GitHub Issues: [https://github.com/TomGorontzy/TN-Doku-Ersteller/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller/issues)
+- GitHub Issues: [https://github.com/GoroTech-Tools/TN-Doku-Ersteller/issues](https://github.com/GoroTech-Tools/TN-Doku-Ersteller/issues)
 - Entwicklung kontaktieren

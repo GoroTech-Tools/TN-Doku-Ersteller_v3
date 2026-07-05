@@ -368,8 +368,8 @@ Beispiele:
 ## Support & Lizenz
 
 - **Lizenz:** Siehe [LICENSE](./LICENSE)
-- **Repository:** [https://github.com/TomGorontzy/TN-Doku-Ersteller](https://github.com/TomGorontzy/TN-Doku-Ersteller)
-- **Issues:** [https://github.com/TomGorontzy/TN-Doku-Ersteller/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller/issues)
+- **Repository:** [https://github.com/GoroTech-Tools/TN-Doku-Ersteller](https://github.com/GoroTech-Tools/TN-Doku-Ersteller)
+- **Issues:** [https://github.com/GoroTech-Tools/TN-Doku-Ersteller/issues](https://github.com/GoroTech-Tools/TN-Doku-Ersteller/issues)
 - **Dokumentation:** Siehe `docs/`-Ordner
 
 ---

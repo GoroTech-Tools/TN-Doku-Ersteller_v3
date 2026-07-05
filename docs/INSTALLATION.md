@@ -64,7 +64,7 @@ flowchart TD
 
 ```powershell
 # Repository klonen
-git clone https://github.com/TomGorontzy/TN-Doku-Ersteller.git
+git clone https://github.com/GoroTech-Tools/TN-Doku-Ersteller.git
 cd TN-Doku-Ersteller
 
 # Virtuelle Umgebung und Packages installieren

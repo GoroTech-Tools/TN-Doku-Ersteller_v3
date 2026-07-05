@@ -116,7 +116,7 @@ Siehe [docs/CHANGELOG.md](docs/CHANGELOG.md) für die vollständige Versionsgesc
 
 ## Support & Links
 
-- **GitHub Repository:** [https://github.com/TomGorontzy/TN-Doku-Ersteller](https://github.com/TomGorontzy/TN-Doku-Ersteller)
-- **Issues & Feedback:** [https://github.com/TomGorontzy/TN-Doku-Ersteller/issues](https://github.com/TomGorontzy/TN-Doku-Ersteller/issues)
+- **GitHub Repository:** [https://github.com/GoroTech-Tools/TN-Doku-Ersteller](https://github.com/GoroTech-Tools/TN-Doku-Ersteller)
+- **Issues & Feedback:** [https://github.com/GoroTech-Tools/TN-Doku-Ersteller/issues](https://github.com/GoroTech-Tools/TN-Doku-Ersteller/issues)
 - **Lizenz:** [LICENSE](docs/LICENSE)
 - **Dokumentation:** [docs/](docs/)
